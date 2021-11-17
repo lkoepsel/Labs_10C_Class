@@ -2,7 +2,7 @@
 ##########              System-specific Details                 ##########
 ########## These need to be changed specific to your  system    ##########
 ##########------------------------------------------------------##########
-SERIAL = /dev/cu.usbmodem3101
+SERIAL = $(AVR_PORT)
 ##########------------------------------------------------------##########
 ##########              Project-specific Details                ##########
 ##########    Check these every time you start a new project    ##########
@@ -15,7 +15,7 @@ BAUD  = 9600UL
 ## A directory for common include files and the simple USART library.
 ## If you move either the current folder or the Library folder, you'll 
 ##  need to change this path to match.
-LIBDIR = ../../../Library
+LIBDIR = ../../../../10c_labs_class/Library
 ##########------------------------------------------------------##########
 ##########                 Programmer Defaults                  ##########
 ##########          Set up once, then forget about it           ##########

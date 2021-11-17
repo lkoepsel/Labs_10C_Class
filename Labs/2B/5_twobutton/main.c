@@ -12,10 +12,7 @@
 /* Main */ 
 int main() {
 /* initialize code goes here */
-    uart_init();
-    stdout = &uart_output;
-    stdin  = &uart_input;
-                
+	init_serial;                
     int buttonState0;
     int button0 = 10;
     int priorState0 = 0;

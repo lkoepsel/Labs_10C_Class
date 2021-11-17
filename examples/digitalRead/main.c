@@ -10,10 +10,7 @@
 
 int main (void)
 {
-    uart_init();
-    stdout = &uart_output;
-    stdin  = &uart_input;
-    // DDRD = 0xff;
+    init_serial;    // DDRD = 0xff;
     // DDRB = 0xff;
 
     uint8_t pin;

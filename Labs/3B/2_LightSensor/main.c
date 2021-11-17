@@ -15,10 +15,7 @@
 /* Main - is the function which C will look for to run at initialization*/ 
 int main() {
 /* initialize code goes here, similar to setup in the Arduino*/
-    uart_init();
-    stdout = &uart_output;
-    stdin  = &uart_input;
-                
+    init_serial;                
 
 // while(1) loop routine runs over and over again forever:
     while(1) {

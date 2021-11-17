@@ -18,10 +18,7 @@
 /* Main - is the function which C will look for to run at initialization*/ 
 int main() {
 /* initialize code goes here, similar to setup in the Arduino*/
-    uart_init();
-    stdout = &uart_output;
-    stdin  = &uart_input;
-
+    init_serial;
     uint8_t PHOTOCELL = A0;
     uint8_t POT = A5;
     uint8_t LED_PHOTO = 9;
