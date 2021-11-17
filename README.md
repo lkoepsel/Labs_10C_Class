@@ -6,14 +6,16 @@ Each lab contains multiple folders, each folder is a specific programming exerci
 Each lab directory also contained the Lab document as well as additional documentation recommended in the Lab.
 
 ## Status of the Labs:
-1B - under review by Instructor
-2B - under development
-3B - under development
-4B - under development
-5B - under development
-8B - under development
+- 1B - under review by Instructor
+- 2B - under development
+- 3B - under development
+- 4B - under development
+- 5B - under development
+- 8B - under development
 
 ## Directories
+**Note: ./Library and ./examples will be maintained identical to the AVR_C versions**
+
 * examples - contains code demonstrating how to use specific functions in the Library
 * Labs - lab content referenced above
 * Library - Arduino Standard C Library, specific Arduino functions rewritten in Standard C such as analogRead(), analogWrite(), digitalRead(), and pinMode()
