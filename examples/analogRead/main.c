@@ -8,7 +8,10 @@
 
 int main (void)
 {
-    init_serial;
+    uart_init();
+    stdout = &uart_output;
+    stdin  = &uart_input;
+
     uint8_t analog_pin = A4;
     puts("Testing analogRead");
     while(1) {
