@@ -14,7 +14,7 @@ int main() {
 // while(1) loop routine runs over and over again forever:
     while(1) {
         /* execution code goes here */
-        puts("Enter a number:");
+        puts("Enter a number");
         input = getchar();
         printf("You entered %c\n", input);        
     }
