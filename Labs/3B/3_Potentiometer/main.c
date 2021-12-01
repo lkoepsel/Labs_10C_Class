@@ -20,14 +20,9 @@ int main() {
 // while(1) loop routine runs over and over again forever:
     while(1) {
         // this is the primary code section to execute
-        // read the input on an analog pin:
-        int sensorValue = analogRead(A5);
-        printf("Light sensor value is %d\n: ", sensorValue);
-        delay(1000);        // delay in between reads for stability
+        // read and display the value on the Light Sensor pin:
 
-        sensorValue = analogRead(A3);
-        printf("Potentiometer sensor value is %d\n: ", sensorValue);
-        delay(1000);        // delay in between reads for stability
+        // read and display the value on the Potentiometer pin:
 
     }
     return(0);
