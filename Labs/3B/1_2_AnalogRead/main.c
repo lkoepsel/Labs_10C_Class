@@ -21,9 +21,9 @@ int main() {
     while(1) {
         // this is the primary code section to execute
         // read the input on an analog pin:
-        int sensorValue = analogRead(A5);
+        int sensorValue = analogRead(A0);
         // print out the value you read:
-        printf("Analog value was %d\n: ", sensorValue);
+        printf("Analog value is %d\n: ", sensorValue);
         delay(1000);        // delay in between reads for stability
 
     }

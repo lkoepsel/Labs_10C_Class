@@ -18,27 +18,10 @@
 /* Main - is the function which C will look for to run at initialization*/ 
 int main() {
 /* initialize code goes here, similar to setup in the Arduino*/
-    init_serial;
-    uint8_t PHOTOCELL = A0;
-    uint8_t POT = A5;
-    uint8_t LED_PHOTO = 9;
-    uint8_t LED_POT = 3;                
 
 // while(1) loop routine runs over and over again forever:
     while(1) {
         // this is the primary code section to execute
-        // read the input on an analog pin:
-        int sensorValue = analogRead(PHOTOCELL);
-        int outputValue = sensorValue >> 2; 
-        printf("Photocell value is %d and output value is %d\n ", sensorValue, outputValue);
-        analogWrite(LED_PHOTO, 255-outputValue);
-        delay(50);        // delay in between reads for stability
-
-        sensorValue = analogRead(POT);
-        outputValue = sensorValue >> 2; 
-        printf("Potentiometer value is %d and output value is %d\n ", sensorValue, outputValue);
-        analogWrite(LED_POT, outputValue);
-        delay(50);        // delay in between reads for stability
 
     }
     return(0);
