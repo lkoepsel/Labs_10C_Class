@@ -1,33 +1,29 @@
 #include "unolib.h"
 
-void off_led ()
+// https://www.nongnu.org/avr-libc/user-manual/FAQ.html#faq_softreset 
+// Function Implementation
+void wdt_init(void)
+{
+MCUSR = 0;
+wdt_disable();
+return;
+}
+
+void LED_off ()
 {
     DDRB |= (_BV(PORTB5));
     PORTB &= ~(_BV(PORTB5));
 }
 
-void on_led ()
+void LED_on ()
 {
     DDRB |= (_BV(PORTB5));
     PORTB |= (_BV(PORTB5));
 }
 
-void tog_led ()
+// TODO: needs to be tested, caused a reset w/ buttons example
+void LED_tog ()
 {
+    DDRB |= (_BV(PORTB5));
     PINB |= (_BV(PORTB5));
-}
-
-void set_bit (volatile uint8_t *port, uint8_t bit)
-{
-*port |= _BV(bit);
-}
-
-void clr_bit (volatile uint8_t *port, uint8_t bit)
-{
-*port &= ~(_BV(bit));
-}
-
-void tog_bit (volatile uint8_t *port, uint8_t bit)
-{
-    *port |= _BV(bit);
 }

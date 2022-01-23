@@ -1,16 +1,18 @@
 #include <stdio.h>
-#include "uart.h"
 #include <avr/io.h>
+#include "uart.h"
 #include "delay.h"
 #include "unolib.h"
 #include "pinMode.h"
 #include "analogRead.h"
+#include "sysclock.h"
 
 int main (void)
 {
-    init_serial;
+    init_serial();
+    init_sysclock_2();
 
-    uint8_t analog_pin = A5;
+    uint8_t analog_pin = A0;
     uint16_t max_value = 0;
     uint16_t min_value = 1023;
     uint16_t analog_value;

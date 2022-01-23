@@ -7,7 +7,7 @@ MCU = $(AVR_MCU)
 ##########------------------------------------------------------##########
 ##########              Project-specific Details                ##########
 ##########    Check these every time you start a new project    ##########
-##########------------------------------------------------------##########w
+##########------------------------------------------------------##########ww
 # MCU   = atmega328pb
 F_CPU = 16000000UL  
 BAUD  = 9600UL
@@ -65,7 +65,7 @@ HEADERS=$(SOURCES:.c=.h)
 ## Use this CPPFLAGS with LIBDIR if a library directory is known 
 CPPFLAGS = -DF_CPU=$(F_CPU) -DBAUD=$(BAUD) -I.  -I$(LIBDIR)
 ## Else, use this one which simply uses the local directory
-#CPPFLAGS = -DF_CPU=$(F_CPU) -DBAUD=$(BAUD) -I.
+# CPPFLAGS = -DF_CPU=$(F_CPU) -DBAUD=$(BAUD) -I.
 # use below to setup gdb and debugging
 CFLAGS = -Og -ggdb -std=gnu99 -Wall
 # Use below to optimize size
@@ -130,7 +130,7 @@ clean:
 	$(TARGET).eeprom
 
 all_clean:
-	rm -f *.elf *.hex *.obj *.o *.d *.eep *.lst *.lss *.sym *.map *~ *.eeprom
+	rm -f *.elf *.hex *.obj *.o *.d *.eep *.lst *.lss *.sym *.map *~ *.eeprom core
 
 LIB_clean:
 	rm -f $(LIBDIR)/*.o
@@ -180,7 +180,7 @@ flash_xplain: PROGRAMMER_TYPE = xplainedmini
 flash_xplain: PROGRAMMER_ARGS =  # USBTiny works with no further arguments
 flash_xplain: flash
 
-#########------------------------------------------------------##########
+##########------------------------------------------------------##########
 ##########       Fuse settings and suitable defaults            ##########
 ##########------------------------------------------------------##########
 

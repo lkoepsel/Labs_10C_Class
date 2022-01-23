@@ -2,19 +2,18 @@
 #include "pinMode.h"
 #include "digitalWrite.h"
 #include "delay.h"
-
-#define BLINK_DELAY_MS 500
  
 int main(void)
 {
-    uint8_t LED = 13;
     /* set LED to output*/
-    pinMode(LED, OUTPUT);
+    pinMode(LED_BUILTIN, OUTPUT);
 
     while(1) {
         /* toggle led on and off */
-        digitalWrite(LED, TOG);
-        delay(BLINK_DELAY_MS);
+        digitalWrite(LED_BUILTIN, HIGH);
+        delay(500);
+        digitalWrite(LED_BUILTIN, LOW);
+        delay(500);
     }
     return(0); 
 }
