@@ -1,33 +1,9 @@
 ##########------------------------------------------------------##########
-##########              System-specific Details                 ##########
-########## These need to be changed specific to your  system    ##########
+##########  System-specific Details                             ##########
+########## 	are contained in root-level file: env.make          ##########
+########## 	edit to change local/board/project parameters       ##########
 ##########------------------------------------------------------##########
-SERIAL = $(AVR_PORT)
-MCU = $(AVR_MCU)
-##########------------------------------------------------------##########
-##########              Project-specific Details                ##########
-##########    Check these every time you start a new project    ##########
-##########------------------------------------------------------##########w
-# MCU   = atmega328pb
-F_CPU = 16000000UL  
-BAUD  = 9600UL
-## Also try BAUD = 19200 or 38400 if you're feeling lucky.
-
-## A directory for common include files and the simple USART library.
-## If you move either the current folder or the Library folder, you'll 
-##  need to change this path to match.
-LIBDIR = ../../Library
-##########------------------------------------------------------##########
-##########                 Programmer Defaults                  ##########
-##########          Set up once, then forget about it           ##########
-##########        (Can override.  See bottom of file.)          ##########
-##########------------------------------------------------------##########
-
-PROGRAMMER_TYPE = Arduino
-#PROGRAMMER_TYPE = dragon_dw
-# extra arguments to avrdude: baud rate, chip type, -F flag, etc.
-PROGRAMMER_ARGS = -F -V -P $(SERIAL) -b 115200	
-
+include ../../env.make
 ##########------------------------------------------------------##########
 ##########                  Program Locations                   ##########
 ##########     Won't need to change if they're in your PATH     ##########
@@ -65,11 +41,11 @@ HEADERS=$(SOURCES:.c=.h)
 ## Use this CPPFLAGS with LIBDIR if a library directory is known 
 # CPPFLAGS = -DF_CPU=$(F_CPU) -DBAUD=$(BAUD) -I.  -I$(LIBDIR)
 ## Else, use this one which simply uses the local directory
-CPPFLAGS = -DF_CPU=$(F_CPU) -DBAUD=$(BAUD) -I.
+CPPFLAGS = -DF_CPU=$(F_CPU) -DBAUD=$(BAUD) -DSOFT_RESET=$(SOFT_RESET) -I.
 # use below to setup gdb and debugging
-CFLAGS = -Og -ggdb -std=gnu99 -Wall
+CFLAGS = -Os -mcall-prologues -g3 -std=gnu99 -Wall -Werror -Wundef
 # Use below to optimize size and some speed per avr-libc FAQ
-## CFLAGS = -Os -mcall-prologues -g -std=gnu99 -Wall
+## CFLAGS = -Os -mcall-prologues -g3 -std=gnu99 -Wall -Werror -Wundef
 ## Use short (8-bit) data types 
 CFLAGS += -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums 
 ## Splits up object files per function
@@ -103,7 +79,13 @@ $(TARGET).elf: $(OBJECTS)
 ## These targets don't have files named after them
 .PHONY: all disassemble disasm eeprom size clean squeaky_clean flash fuses
 
+
+complete: all flash all_clean
+
 all: $(TARGET).hex 
+
+static: 
+	cppcheck --std=c99 --platform=avr8 --enable=all ../../. 2> cppcheck.txt
 
 debug:
 	@echo
@@ -127,7 +109,7 @@ clean:
 	rm -f $(TARGET).elf $(TARGET).hex $(TARGET).obj \
 	$(TARGET).o $(TARGET).d $(TARGET).eep $(TARGET).lst \
 	$(TARGET).lss $(TARGET).sym $(TARGET).map $(TARGET)~ \
-	$(TARGET).eeprom
+	$(TARGET).eeprom cppcheck.txt
 
 all_clean:
 	rm -f *.elf *.hex *.obj *.o *.d *.eep *.lst *.lss *.sym *.map *~ *.eeprom core
