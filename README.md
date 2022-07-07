@@ -1,6 +1,6 @@
 # MPC 10C Labs for the Arduino Using Standard C: Classroom Edition
 ## Sources
-* [This one on Bitbucket](https://bitbucket.org/lkoepsel/10c_labs_class/src/main/)
+* [This one](https://github.com/lkoepsel/Labs_10C_Class)
 * [Wellys.com Standard C Documentation](https://www.wellys.com/posts/courses_avr_c/)
 * [AVR_C Github Repository](https://github.com/lkoepsel/AVR_C) This link is provided as additional documentation, the Library and examples in AVR_C are included in this repository. It is included in case, someone wants to have a public version available of these files.
 ## Introduction
@@ -8,21 +8,27 @@ This repository is for the classroom using the Arduino Uno, the Standard C tool 
 
 Each lab contains multiple folders, each folder is a specific programming exercise. Within each folder is a file called *main.c* and a file called *Makefile*. The file *main.c* is the template for the exercise and the *Makefile* is the required file using *make* to compile/link/load it to an UNO. Think of the *main.c* file as the Arduino IDE sketch and the *Makefile* as a command-line version of the Arduino IDE.
 
-In order to use this content, one must have the AVR-C Standard C tool chain installed on their computer. This [post](https://wellys.com/posts/avr_c_setup/) will advise how to do this on all three platforms, Linux, macOS and Windows. 
+In order to use this content, one must have the AVR-C Standard C tool chain installed on their computer. This [post](https://wellys.com/posts/avr_c_setup/) advises how to do this on all three platforms, Linux, macOS and Windows. 
 
 Each lab directory also contains the Lab document as well as additional documentation recommended in the Lab.
-
-## Status of the Labs:
-- 1B - under review by Instructor
-- 2B - under development
-- 3B - under development
-- 4B - under development
-- 5B - under development
-- 8B - under development
 
 ## Directories
 **Note: ./Library and ./examples will be maintained identical to the AVR_C versions**
 
 * examples - contains code demonstrating how to use specific functions in the Library
-* Labs - lab content referenced above
+* Labs - lab content for each class
 * Library - Arduino Standard C Library, specific Arduino functions rewritten in Standard C such as analogRead(), analogWrite(), digitalRead(), and pinMode()
+
+## Getting Started
+1. Clone this repository to your system:
+```
+# open a terminal window in your operating system
+# change your directory to where you want to keep this lab
+cd Documents
+# clone this repository to folder Labs_10C_Class
+git clone https://github.com/lkoepsel/Labs_10C_Class.git
+# switch to the Lab directory
+cd Labs_10C_Class
+```
+2. Open the presentation lec1bintro.ppt either in Powerpoint or in Google Docs and review the material.
+3. Execute the **Next Steps** described on the last page.
