@@ -14,10 +14,10 @@
 
 # Arduino UNO and compatible boards
 MCU = atmega328p
-SERIAL = /dev/cu.usbserial-01D5BFFC
+SERIAL = /dev/cu.usbmodem3101
 F_CPU = 16000000UL  
 BAUD  = 9600UL
 SOFT_RESET = 0
-LIBDIR = ../../Library
+LIBDIR = ../../../Library
 PROGRAMMER_TYPE = Arduino
 PROGRAMMER_ARGS = -F -V -P $(SERIAL) -b 115200

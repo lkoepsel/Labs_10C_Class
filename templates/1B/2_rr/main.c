@@ -4,10 +4,9 @@ Alternate turning on two LEDs, to create a railroad crossing signal
 Connect pins 2/3 to a 220ohm resistor to a red LED
 Connect second leg of LED to ground
 */
+
  
 // Setup the two leds
-int LED0 = 2;
-int LED1 = 3;
 
 int main() {
     // initialize the two leds to output

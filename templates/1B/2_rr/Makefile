@@ -1,37 +1,9 @@
 ##########------------------------------------------------------##########
-##########              System-specific Details                 ##########
-########## These need to be changed specific to your  system    ##########
+##########  System-specific Details                             ##########
+########## 	are contained in root-level file: env.make          ##########
+########## 	edit to change local/board/project parameters       ##########
 ##########------------------------------------------------------##########
-SERIAL = $(AVR_PORT)
-##########------------------------------------------------------##########
-##########              System-specific Details                 ##########
-########## These need to be changed specific to your  system    ##########
-##########------------------------------------------------------##########
-SERIAL = $(AVR_PORT)
-##########------------------------------------------------------##########
-##########              Project-specific Details                ##########
-##########    Check these every time you start a new project    ##########
-##########------------------------------------------------------##########
-MCU   = atmega328p
-F_CPU = 16000000UL  
-BAUD  = 9600UL
-## Also try BAUD = 19200 or 38400 if you're feeling lucky.
-
-## A directory for common include files and the simple USART library.
-## If you move either the current folder or the Library folder, you'll 
-##  need to change this path to match.
-LIBDIR = ../../../Library
-##########------------------------------------------------------##########
-##########                 Programmer Defaults                  ##########
-##########          Set up once, then forget about it           ##########
-##########        (Can override.  See bottom of file.)          ##########
-##########------------------------------------------------------##########
-
-PROGRAMMER_TYPE = Arduino
-#PROGRAMMER_TYPE = dragon_dw
-# extra arguments to avrdude: baud rate, chip type, -F flag, etc.
-PROGRAMMER_ARGS = -F -V -P $(SERIAL) -b 115200	
-
+include ../../../env.make
 ##########------------------------------------------------------##########
 ##########                  Program Locations                   ##########
 ##########     Won't need to change if they're in your PATH     ##########
@@ -67,13 +39,18 @@ HEADERS=$(SOURCES:.c=.h)
 
 ## Compilation options, type man avr-gcc if you're curious. 
 ## Use this CPPFLAGS with LIBDIR if a library directory is known 
-CPPFLAGS = -DF_CPU=$(F_CPU) -DBAUD=$(BAUD) -I.  -I$(LIBDIR)
+CPPFLAGS = -DF_CPU=$(F_CPU) -DBAUD=$(BAUD) -DSOFT_RESET=$(SOFT_RESET) -I.  -I$(LIBDIR)
 ## Else, use this one which simply uses the local directory
 # CPPFLAGS = -DF_CPU=$(F_CPU) -DBAUD=$(BAUD) -I.
 # use below to setup gdb and debugging
-CFLAGS = -Og -ggdb -std=gnu99 -Wall
+# If GCC is < 12.x
+CFLAGS = -Og -ggdb -std=gnu99 -Wall -Wundef -Werror
+# If GCC 12+ Add --param=min-pagesize=0 to solve subscript error on AVR uC
+# "array subscript 0 is outside array bounds"
+# https://gcc.gnu.org/bugzilla//show_bug.cgi?id=105523
+# CFLAGS = -Og -ggdb -std=gnu99 -Wall -Wundef --param=min-pagesize=0 
 # Use below to optimize size
-#CFLAGS = -Os -g -std=gnu99 -Wall
+# CFLAGS = -Os -g -std=gnu99 -Wall
 ## Use short (8-bit) data types 
 CFLAGS += -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums 
 ## Splits up object files per function
@@ -83,7 +60,7 @@ LDFLAGS = -Wl,-Map,$(TARGET).map
 LDFLAGS += -Wl,--gc-sections 
 ## Relax shrinks code even more, but makes disassembly messy
 ## LDFLAGS += -Wl,--relax
-## LDFLAGS += -Wl,-u,vfprintf -lprintf_flt -lm  ## for floating-point printf
+LDFLAGS += -Wl,-u,vfprintf -lprintf_flt -lm  ## for floating-point printf
 ## LDFLAGS += -Wl,-u,vfprintf -lprintf_min      ## for smaller printf
 TARGET_ARCH = -mmcu=$(MCU)
 
@@ -107,7 +84,12 @@ $(TARGET).elf: $(OBJECTS)
 ## These targets don't have files named after them
 .PHONY: all disassemble disasm eeprom size clean squeaky_clean flash fuses
 
+complete: all flash all_clean
+
 all: $(TARGET).hex 
+
+static: 
+	cppcheck --std=c99 --platform=avr8 --enable=all ../../. 2> cppcheck.txt
 
 debug:
 	@echo
@@ -131,10 +113,13 @@ clean:
 	rm -f $(TARGET).elf $(TARGET).hex $(TARGET).obj \
 	$(TARGET).o $(TARGET).d $(TARGET).eep $(TARGET).lst \
 	$(TARGET).lss $(TARGET).sym $(TARGET).map $(TARGET)~ \
-	$(TARGET).eeprom
+$(TARGET).eeprom cppcheck.txt
 
 all_clean:
 	rm -f *.elf *.hex *.obj *.o *.d *.eep *.lst *.lss *.sym *.map *~ *.eeprom core
+
+LIB_clean:
+	rm -f $(LIBDIR)/*.o
 
 ##########------------------------------------------------------##########
 ##########              Programmer-specific details             ##########
@@ -168,14 +153,18 @@ flash_usbasp: PROGRAMMER_TYPE = usbasp
 flash_usbasp: PROGRAMMER_ARGS =  # USBasp works with no further arguments
 flash_usbasp: flash
 
-flash_arduinoISP: PROGRAMMER_TYPE = avrisp
-flash_arduinoISP: PROGRAMMER_ARGS = -b 19200 -P $(SERIAL) 
+flash_atmelice: PROGRAMMER_TYPE = atmelice
+flash_atmelice: PROGRAMMER_ARGS = -P $(SERIAL) 
 ## (for windows) flash_arduinoISP: PROGRAMMER_ARGS = -b 19200 -P com5
-flash_arduinoISP: flash
+flash_atmelice: flash
 
-flash_109: PROGRAMMER_TYPE = avr109
-flash_109: PROGRAMMER_ARGS = -b 9600 -P $(SERIAL)
-flash_109: flash
+flash_snap: PROGRAMMER_TYPE = snap_isp
+flash_snap: PROGRAMMER_ARGS = -P usb 
+flash_snap: flash
+
+flash_xplain: PROGRAMMER_TYPE = xplainedmini
+flash_xplain: PROGRAMMER_ARGS =  # USBTiny works with no further arguments
+flash_xplain: flash
 
 ##########------------------------------------------------------##########
 ##########       Fuse settings and suitable defaults            ##########
