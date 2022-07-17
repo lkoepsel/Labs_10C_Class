@@ -16,8 +16,10 @@ Each lab directory also contains the Lab document as well as additional document
 **Note: ./Library and ./examples will be maintained identical to the AVR_C versions**
 
 * examples - contains code demonstrating how to use specific functions in the Library
-* Labs - lab content for each class
-* Library - Arduino Standard C Library, specific Arduino functions rewritten in Standard C such as analogRead(), analogWrite(), digitalRead(), and pinMode()
+* *Labs* - lab content for each class
+* *Library* - Arduino Standard C Library, specific Arduino functions rewritten in Standard C such as analogRead(), analogWrite(), digitalRead(), and pinMode()
+* *templates* - template directories for each of the lab execises. This directory must be duplicated to be used and called *dev*. **This directory is tracked by git and could be over-written in the next clone operation.**
+* *dev* - the student's version of the templates directory, where the students will make changes to the lab files. **This directory is not tracked by git and won't be overwritten.**
 
 ## Getting Started
 1. Clone this repository to your system:
@@ -29,6 +31,8 @@ cd Documents
 git clone https://github.com/lkoepsel/Labs_10C_Class.git
 # switch to the Lab directory
 cd Labs_10C_Class
+# copy the templates folder to the new dev folder
+cp -r templates dev
 ```
 2. Open the presentation lec1bintro.ppt either in Powerpoint or in Google Docs and review the material.
 3. Execute the **Next Steps** described on the last page.

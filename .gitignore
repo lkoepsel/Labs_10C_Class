@@ -4,7 +4,6 @@ _deps
 cmake-*
 build
 .DS_Store
-*.pdf
 *.elf
 *.hex
 *.obj
