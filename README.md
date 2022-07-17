@@ -15,7 +15,7 @@ Each lab directory also contains the Lab document as well as additional document
 ## Directories
 **Note: ./Library and ./examples will be maintained identical to the AVR_C versions**
 
-* examples - contains code demonstrating how to use specific functions in the Library
+* *examples* - contains code demonstrating how to use specific functions in the Library
 * *Labs* - lab content for each class
 * *Library* - Arduino Standard C Library, specific Arduino functions rewritten in Standard C such as analogRead(), analogWrite(), digitalRead(), and pinMode()
 * *templates* - template directories for each of the lab execises. This directory must be duplicated to be used and called *dev*. **This directory is tracked by git and could be over-written in the next clone operation.**
