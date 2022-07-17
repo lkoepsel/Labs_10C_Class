@@ -1,6 +1,6 @@
 # MPC 10C Labs for the Arduino Using Standard C: Classroom Edition
 ## Sources
-* [This one](https://github.com/lkoepsel/Labs_10C_Class)
+* [This repository](https://github.com/lkoepsel/Labs_10C_Class)
 * [Wellys.com Standard C Documentation](https://www.wellys.com/posts/courses_avr_c/)
 * [AVR_C Github Repository](https://github.com/lkoepsel/AVR_C) This link is provided as additional documentation, the Library and examples in AVR_C are included in this repository. It is included in case, someone wants to have a public version available of these files.
 ## Introduction
@@ -13,7 +13,7 @@ In order to use this content, one must have the AVR-C Standard C tool chain inst
 Each lab directory also contains the Lab document as well as additional documentation recommended in the Lab.
 
 ## Directories
-**Note: ./Library and ./examples will be maintained identical to the AVR_C versions**
+**Note: *Library* and *examples* will be maintained identical to the [AVR_C versions](https://github.com/lkoepsel/AVR_C)**
 
 * *examples* - contains code demonstrating how to use specific functions in the Library
 * *Labs* - lab content for each class
@@ -27,12 +27,12 @@ Each lab directory also contains the Lab document as well as additional document
 # open a terminal window in your operating system
 # change your directory to where you want to keep this lab
 cd Documents
-# clone this repository to folder Labs_10C_Class
+# clone this repository to directory Labs_10C_Class
 git clone https://github.com/lkoepsel/Labs_10C_Class.git
 # switch to the Lab directory
 cd Labs_10C_Class
 # copy the templates folder to the new dev folder
 cp -r templates dev
 ```
-2. Open the presentation lec1bintro.ppt either in Powerpoint or in Google Docs and review the material.
+2. Open the presentation lec1bintro.pdf and review the material.
 3. Execute the **Next Steps** described on the last page.
