@@ -8,7 +8,7 @@
 /* Main */ 
 int main() {
 /* initialize code goes here */
-    init_serial;                
+    init_serial();                
     char input;
 
 // while(1) loop routine runs over and over again forever:

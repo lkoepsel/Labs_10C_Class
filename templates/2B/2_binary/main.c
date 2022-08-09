@@ -14,7 +14,7 @@
 /* Main */ 
 int main() {
 /* initialize code goes here */
-    init_serial;                
+    init_serial();                
                 
     char input;
     int bit0 = 3;

@@ -18,7 +18,7 @@ int main() {
     int buttonState;
     int button = 10;
 
-    init_serial;
+    init_serial();
     pinMode(button, INPUT_PULLUP);
 
 // while(1) loop routine runs over and over again forever:

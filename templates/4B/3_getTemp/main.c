@@ -62,7 +62,7 @@ void getTemp(float * t)
 /* Main - is the function which C will look for to run at initialization*/ 
 int main() {
 /* initialize code goes here, similar to setup in the Arduino*/
-    init_serial;                
+    init_serial();                
     float temp[5];
 
 // while(1) loop routine runs over and over again forever:
