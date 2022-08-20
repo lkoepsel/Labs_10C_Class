@@ -1,7 +1,8 @@
 # MPC 10C Labs for the Arduino Using Standard C: Classroom Edition
 ## Getting Started
 1. To clone this repository to your system, **follow all of the steps EXACTLY**:
-Note: [For a more detailed explanation](https://www.wellys.com/posts/avr_c_git/)
+
+**Note:** [For a more detailed explanation](https://www.wellys.com/posts/avr_c_git/)
 ```
 # open a terminal window in your operating system
 # change your directory to where you want to keep this lab
