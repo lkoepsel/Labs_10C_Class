@@ -1,7 +1,21 @@
 # MPC 10C Labs for the Arduino Using Standard C: Classroom Edition
+## Getting Started
+1. To clone this repository to your system, **follow all of the steps EXACTLY**:
+```
+# open a terminal window in your operating system
+# change your directory to where you want to keep this lab
+cd Documents
+# clone this repository to directory Labs_10C_Class
+git clone https://github.com/lkoepsel/Labs_10C_Class.git
+# switch to the cloned directory
+cd Labs_10C_Class
+# copy the templates folder to the new dev folder
+cp -r templates dev
+```
+
 ## Sources
 * [This repository](https://github.com/lkoepsel/Labs_10C_Class)
-* [Wellys.com Standard C Documentation](https://www.wellys.com/posts/courses_avr_c/)
+* [Developing in C on the AVR ATmega328P](https://www.wellys.com/posts/courses_avr_c/)
 * [AVR_C Github Repository](https://github.com/lkoepsel/AVR_C) This link is provided as additional documentation, the Library and examples in AVR_C are included in this repository. It is included in case, someone wants to have a public version available of these files.
 ## Introduction
 This repository is for the classroom using the Arduino Uno, the Standard C tool chain (avr-gcc, avrdude etc) and the [Arduino Standard C Library](https://github.com/lkoepsel/AVR_C). It includes directories for all of the lab assignments along with examples as to how to use the Arduino Standard C Library. The content is for students who desire understanding Standard C using the Arduino Uno.
