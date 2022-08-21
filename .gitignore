@@ -19,3 +19,4 @@ build
 /dev/*
 /dev
 ~$*
+env.make
