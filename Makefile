@@ -43,7 +43,6 @@ CPPFLAGS = -DF_CPU=$(F_CPU) -DBAUD=$(BAUD) -DSOFT_RESET=$(SOFT_RESET) -I.  -I$(L
 ## Else, use this one which simply uses the local directory
 # CPPFLAGS = -DF_CPU=$(F_CPU) -DBAUD=$(BAUD) -I.
 # use below to setup gdb and debugging
-# If GCC is < 12.x
 CFLAGS = -Og -ggdb -std=gnu99 -Wall -Wundef -Werror
 # Use below to optimize size
 # CFLAGS = -Os -g -std=gnu99 -Wall
