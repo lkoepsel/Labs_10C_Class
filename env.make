@@ -14,7 +14,7 @@
 
 # Arduino UNO and compatible boards
 MCU = atmega328p
-SERIAL = /dev/cu.usbmodem3101
+SERIAL = /dev/cu.usbmodem4101
 F_CPU = 16000000UL  
 BAUD  = 9600UL
 SOFT_RESET = 0
