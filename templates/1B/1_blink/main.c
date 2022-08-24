@@ -21,11 +21,11 @@ int main() {
     while(1) {
         digitalWrite(LED, HIGH);
          // turn the LED on (HIGH is the voltage level)
-        delay(1000);
+        delay(500);
          // wait for a second
         digitalWrite(LED, LOW);
          // turn the LED off by making the voltage LOW
-        delay(250);
+        delay(500);
          // wait for a second
     }
     // return(0) isn't used, however required for strict C compilation
