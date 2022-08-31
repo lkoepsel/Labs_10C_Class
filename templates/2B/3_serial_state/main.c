@@ -13,6 +13,7 @@ int main() {
 
 // while(1) loop routine runs over and over again forever:
     while(1) {
+		printf("Currently in state %d, state);
         /* Print a line of text requesting a 0 or 1 */
         /* then input the character and make it an integer */
         puts("Enter 0 or 1:");
@@ -35,6 +36,8 @@ int main() {
             else if (number == 1) {
             }
         }
+		// FIX ME -- continue adding code for states 0-6
+		// 
     }
-    return(0);
+    return 0;
 }

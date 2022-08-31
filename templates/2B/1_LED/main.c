@@ -1,6 +1,7 @@
-/*
-Blink
-Same as Arduino Blink sketch, blinks the built-in LED
+/*  LED - configure and test 3 LED circuits
+
+Based on 1_blink which blinks the pin 13 internal LED
+
 */
 
 #include "unolib.h"
@@ -11,6 +12,8 @@ Same as Arduino Blink sketch, blinks the built-in LED
 // Pin 13 has an LED connected on most Arduino boards.
 // give it a name:
 int LED = 13;
+
+
 // C code must have a main function, it is the primary code in the file
 int main() {
 
@@ -28,6 +31,7 @@ int main() {
         delay(500);
          // wait for a 1/2 second
     }
-    // return(0) isn't used, however required for strict C compilation
-    return(0);
+
+
+    return 0;
 }

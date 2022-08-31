@@ -1,5 +1,7 @@
-/* Binary - enter a number in the serial monitor and three LEDs will
-* show it in binary (0-7)
+/* Binary - enter a decimal number (0-7) in the serial monitor 
+* and three LEDs will show it in binary (000 - 111)
+*
+* ASSUMPTIONS: LEDs are connected to pins 2, 4 and 6
 */
 
 /* Put your #includes here */
@@ -29,7 +31,7 @@ int main() {
         /* execution code goes here */
         puts("Enter a number:");
         input = getchar();
-        int number = input - '0';
+        int number = 0; // FIX ME -- convert input to int format according to instructions in Lab Handout
         
         if (number == 0) {
             digitalWrite(bit0, LOW);
@@ -41,6 +43,12 @@ int main() {
             digitalWrite(bit1, LOW);
             digitalWrite(bit2, LOW);
         }
+		// FIX ME -- add additional sections to process numbers 2 - 7
+		
+		
+		
+		
+		
     }
-    return(0);
+    return 0;
 }
