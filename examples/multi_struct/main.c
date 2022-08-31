@@ -34,7 +34,6 @@ enum {LED0, LED1, LED2, LED3, LED4, LED5, LED6, LED7, LED8, LED9, LED10, LED11};
 
 void update (uint8_t taskID) {
     // Based on adafruit lesson on classes
-    // Changed digitalWrite() to bit action, due to overhead of dW()
     uint16_t now = millis();
 
     if((tasks[taskID].state == HIGH) && (now - tasks[taskID].elapsed >= tasks[taskID].on))
@@ -58,19 +57,19 @@ int main(void)
 
     // struct: {pin, *port, bit, state, on, off, elapsed}
     uint8_t i = 0;
-    tasks[i].pin = LED4;
+    tasks[i].pin = LED3;
     tasks[i].state = LOW;
     tasks[i].on = DEFAULT_ON;
     tasks[i].off = DEFAULT_OFF;
     tasks[i].elapsed = 0;
     i++;
-    tasks[i].pin = LED6;
+    tasks[i].pin = LED5;
     tasks[i].state = LOW;
     tasks[i].on = (DEFAULT_ON << 1);
     tasks[i].off = (DEFAULT_OFF << 1);
     tasks[i].elapsed = 0;
     i++;
-    tasks[i].pin = LED7;
+    tasks[i].pin = LED6;
     tasks[i].state = LOW;
     tasks[i].on = (DEFAULT_ON << 2);
     tasks[i].off = (DEFAULT_OFF << 2);

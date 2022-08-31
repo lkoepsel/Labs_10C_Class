@@ -17,8 +17,8 @@ int main() {
     init_serial();                
                 
     char input;
-    int bit0 = 3;
-    int bit1 = 5;
+    int bit0 = 2;
+    int bit1 = 4;
     int bit2 = 6;
     pinMode(bit0, OUTPUT);
     pinMode(bit1, OUTPUT);
