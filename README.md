@@ -37,22 +37,6 @@ Each lab directory also contains the Lab document as well as additional document
 * *templates* - template directories for each of the lab execises. This directory must be duplicated to be used and called *dev*. **This directory is tracked by git and could be over-written in the next clone operation.**
 * *dev* - the student's version of the templates directory, where the students will make changes to the lab files. **This directory is not tracked by git and won't be overwritten.**
 
-## Getting Started
-1. Clone this repository to your system:
-```
-# open a terminal window in your operating system
-# change your directory to where you want to keep this lab
-cd Documents
-# clone this repository to directory Labs_10C_Class
-git clone https://github.com/lkoepsel/Labs_10C_Class.git
-# switch to the Lab directory
-cd Labs_10C_Class
-# copy the templates folder to the new dev folder
-cp -r templates dev
-```
-2. Open the presentation lec1bintro.pdf and review the material.
-3. Execute the **Next Steps** described on the last page.
-
 ## Backup env.make
 As *env.make* isn't backed up by git, here is the file's contents. Copy the contents, paste them into a new file then save that file as env.make at the root level of your Labs_10C_Class folder (same level as the *templates/* and *dev/*:
 ```make
