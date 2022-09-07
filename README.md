@@ -52,3 +52,43 @@ cp -r templates dev
 ```
 2. Open the presentation lec1bintro.pdf and review the material.
 3. Execute the **Next Steps** described on the last page.
+
+## Backup env.make
+As *env.make* isn't backed up by git, here is the file's contents. Copy the contents, paste them into a new file then save that file as env.make at the root level of your Labs_10C_Class folder (same level as the *templates/* and *dev/*:
+```make
+# Environmental variables for specific boards
+
+# Arduino UNO and compatible boards
+MCU = atmega328p
+SERIAL = /dev/cu.usbmodem14101
+F_CPU = 16000000UL  
+BAUD  = 9600UL
+SOFT_RESET = 0
+LIBDIR = ../../../Library
+PROGRAMMER_TYPE = Arduino
+PROGRAMMER_ARGS = -F -V -P $(SERIAL) -b 115200
+
+# If you switch board types i.e; Uno to Xplained Mini (not Uno to different Uno)
+# The Library must be re-compiled, to do so, erase the Library objects by
+# "make LIB_clean" followed by a "make flash"
+# Or copy and paste below into your terminal:
+# make LIB_clean && make flash
+
+# Microchip 328PB Xplained Mini board
+# MCU = atmega328pb
+# SERIAL = /dev/cu.usbmodem3102
+# F_CPU = 16000000UL  
+# BAUD  = 9600UL
+# SOFT_RESET = 1
+# LIBDIR = ../../Library
+# PROGRAMMER_TYPE = xplainedmini
+# PROGRAMMER_ARGS = 
+```
+
+### Changing Board Types
+As the comments in the *env.make* file state, if you switch boards i.e; Uno to Xplained Mini (not Uno to different Uno) then **the Library must be re-compiled**.
+Use "*make LIB_clean*" to force a re-compile of the Library followed by a "*make flash*" or copy and paste below into your terminal:
+```bash
+make LIB_clean && make flash
+```
+This is also true if you change the *MCU* or *F_CPU*. This only needs to be performed once upon changing boards, *MCU* or *F_CPU*. 
