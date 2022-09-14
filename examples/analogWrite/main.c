@@ -11,8 +11,8 @@ int main (void)
 
     uint8_t duty_cycle;
 
-    const uint8_t pin1 = 9;
-    duty_cycle = 180; // 127/255 = 50%
+    const uint8_t pin1 = 3;
+    duty_cycle = 127; // 127/255 = 50%
     analogWrite(pin1, duty_cycle);
 
     const uint8_t pin2 = 2;
