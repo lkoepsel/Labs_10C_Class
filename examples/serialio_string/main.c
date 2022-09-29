@@ -7,12 +7,13 @@ int main(void) {
 
     init_serial();
     
-    char input[8];
+    char input1[8];
+    char input2[8];
 
     puts("Serial I/O Test: String");
     while(1) {
-        scanf("%s", input);
-        printf("You entered %s\n", input);        
+        scanf("%s %s", input1, input2);
+        printf("You entered %s %s\n", input1, input2);        
     }        
     return 0;
 }
