@@ -49,8 +49,8 @@ CFLAGS = -Og -ggdb -std=gnu99 -Wall -Wundef -Werror
 # "array subscript 0 is outside array bounds"
 # https://gcc.gnu.org/bugzilla//show_bug.cgi?id=105523
 # CFLAGS = -Og -ggdb -std=gnu99 -Wall -Wundef --param=min-pagesize=0 
-# Use below to optimize size and some speed per avr-libc FAQ
-# CFLAGS = -Os -g3 -std=gnu99 -Wall -Werror -Wundef
+# Use below to optimize size
+# CFLAGS = -Os -g -std=gnu99 -Wall
 ## Use short (8-bit) data types 
 CFLAGS += -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums 
 ## Splits up object files per function
@@ -60,7 +60,7 @@ LDFLAGS = -Wl,-Map,$(TARGET).map
 LDFLAGS += -Wl,--gc-sections 
 ## Relax shrinks code even more, but makes disassembly messy
 ## LDFLAGS += -Wl,--relax
-LDFLAGS += -Wl,-u,vfprintf -lprintf_flt -lm  ## for floating-point printf
+## LDFLAGS += -Wl,-u,vfprintf -lprintf_flt -lm  ## for floating-point printf
 ## LDFLAGS += -Wl,-u,vfprintf -lprintf_min      ## for smaller printf
 TARGET_ARCH = -mmcu=$(MCU)
 
@@ -121,6 +121,9 @@ all_clean:
 
 LIB_clean:
 	rm -f $(LIBDIR)/*.o
+
+end_ide:
+	pkill -2 Bloom && sleep 2
 
 ##########------------------------------------------------------##########
 ##########              Programmer-specific details             ##########
