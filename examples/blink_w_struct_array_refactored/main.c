@@ -25,6 +25,17 @@ void init(uint8_t index, uint8_t ledPin, uint8_t state, uint16_t interval,\
     return ;
 }  
 
+void update(uint8_t i)
+{
+   uint32_t currentMillis = millis();
+   if(currentMillis - LEDS[i].previousMillis > LEDS[i].interval)
+   {
+       LEDS[i].previousMillis = currentMillis;
+       LEDS[i].state = !LEDS[i].state;
+       digitalWrite(LEDS[i].ledPin, LEDS[i].state);
+   }
+}
+
 int main (void)
 {
     init_sysclock_2 ();
@@ -35,15 +46,9 @@ int main (void)
 
     while(1)
     {
-        uint32_t currentMillis = millis();
-        for (uint8_t i = 0; i < N_LEDS; i++)
+        for (uint8_t led = 0; led < N_LEDS; led++)
         {
-            if(currentMillis - LEDS[i].previousMillis > LEDS[i].interval) 
-            {
-                LEDS[i].previousMillis = currentMillis;   
-                LEDS[i].state = !LEDS[i].state;
-                digitalWrite(LEDS[i].ledPin, LEDS[i].state);
-            }
+            update(led);
         }
     }
 }
