@@ -10,10 +10,13 @@
  
 #include <stdio.h>
 #include "uart.h"
+#include "sysclock.h"
 
 int main(void) {    
 
     init_serial();
+    init_sysclock_2 ();
+    init_RESET();
     
     char input;
 

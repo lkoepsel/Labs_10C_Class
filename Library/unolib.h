@@ -15,6 +15,11 @@
 #define min(a, b) ((a) < (b) ? (a) : (b)) 
 #define max(a, b) ((a) > (b) ? (a) : (b))
 
+
+// pin to Port functions, to make it easy to convert Uno pin to 328P port
+#define pintoBit(a) ((a) < 8 ? (a) : (a - 8))
+#define pintoPort(a) ((a) < 8 ? (&PORTD) : (&PORTB))
+
 #define LED_BUILTIN 13
 
 enum {INPUT, OUTPUT, INPUT_PULLUP};
@@ -23,6 +28,8 @@ enum {A0, A1, A2, A3, A4, A5};
 enum {FALSE, TRUE};
 
 uint16_t d_analogRead(uint8_t pin) ;
+uint8_t constrain8_t(uint8_t value, uint8_t min, uint8_t max);
+uint16_t constrain16_t(uint16_t value, uint16_t min, uint16_t max);
 
 /* User Push Button on ATmega328PB XPLAINED Board is PB7
 *  It is ACTIVE LOW
@@ -31,10 +38,8 @@ uint16_t d_analogRead(uint8_t pin) ;
 *  for a explanation of the routine
 */
 
-#if SOFT_RESET
-#define RESET_BUTTON PB7
+#define RESET_BUTTON PB0
 #define RESET_MASK  0b11000111
-#endif
 
 #define BOUNCE_DIVIDER 20 // divides millis by this number for checking reset button
 
@@ -48,11 +53,19 @@ do \
 wdt_enable(WDTO_15MS); \
 for(;;) \
 { \
+blink();\
 } \
 } while(0)
+
+#endif
+
+// inline blink, used to indicate a soft reset, blinks pin 13
+#define blink() \
+DDRB |= (_BV(PORTB5));\
+PORTB |= (_BV(PORTB5));\
+_delay_ms(100);\
+PORTB &= ~(_BV(PORTB5));
 
 #define set_bit(port, bit) ((port) |= (1 << (bit)))
 #define clr_bit(port, bit) ((port) &= ~(1 << (bit)))
 #define tog_bit(port, bit) ((port) |= (1 << (bit)))
-
-#endif

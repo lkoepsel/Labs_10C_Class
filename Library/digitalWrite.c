@@ -1,43 +1,20 @@
 #include "digitalWrite.h"
-
-uint8_t digitalWrite(uint8_t apin, uint8_t level) {
-    uint8_t bit, errno = 0;
-    // UNO PINS 0-7 PORT D        
-    if (apin <= 7) {
-        bit = apin;
-        if (level == LOW) {
-            clr_bit(PORTD, bit);
-        }
-        else if (level == HIGH) {
-            set_bit(PORTD, bit);
-        }
-        else if (level == TOG) {
-            tog_bit(PIND, bit);
-        }
-        else {
-            errno = -1;
-        }
-        return(errno);
+ 
+void digitalWrite(uint8_t apin, uint8_t level) {
+    volatile uint8_t *portn;
+    uint8_t bit = pintoBit(apin);
+    portn = pintoPort(apin);
+    if (level == LOW) {
+        clr_bit(*portn, bit);
     }
-
-    // UNO PINS 8-13 PORT B        
-    else if (apin <= 13) {
-        bit = apin - 8;
-        if (level == LOW) {
-            clr_bit(PORTB, bit);
-        }
-        else if (level == HIGH) {
-            set_bit(PORTB, bit);
-        }
-        else if (level == TOG) {
-            tog_bit(PINB, bit);
-        }
-        else {
-            errno = -1;
-        }
+    else if (level == HIGH) {
+        set_bit(*portn, bit);
     }
-    else {
-        return(errno);
+    else if (level == TOG) {
+        // PINn is 2 addresses below PORTn, decrement twice then set to toggle
+        portn--;
+        portn--;
+        set_bit(*portn, bit);
     }
-    return(errno);
+    return;
 }  

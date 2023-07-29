@@ -8,6 +8,6 @@
 #include <avr/io.h>
 #include "unolib.h"
 
-uint8_t digitalWrite(uint8_t apin, uint8_t level) ;
+void digitalWrite(uint8_t apin, uint8_t level) ;
 
 #endif
