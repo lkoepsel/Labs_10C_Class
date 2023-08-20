@@ -3,7 +3,7 @@
 ########## 	are contained in root-level file: env.make          ##########
 ########## 	edit to change local/board/project parameters       ##########
 ##########------------------------------------------------------##########
-include ../../env.make
+include $(DEPTH)env.make
 ##########------------------------------------------------------##########
 ##########                  Program Locations                   ##########
 ##########     Won't need to change if they're in your PATH     ##########
@@ -40,8 +40,6 @@ HEADERS=$(SOURCES:.c=.h)
 ## Compilation options, type man avr-gcc if you're curious. 
 ## Use this CPPFLAGS with LIBDIR if a library directory is known 
 CPPFLAGS = -DF_CPU=$(F_CPU) -DBAUD=$(BAUD) -DSOFT_RESET=$(SOFT_RESET) -I.  -I$(LIBDIR)
-## Else, use this one which simply uses the local directory
-# CPPFLAGS = -DF_CPU=$(F_CPU) -DBAUD=$(BAUD) -I.
 # use below to setup gdb and debugging
 CFLAGS = -Og -ggdb -std=gnu99 -Wall -Wundef -Werror
 # Use below to optimize size
@@ -53,6 +51,9 @@ CFLAGS += -ffunction-sections -fdata-sections
 LDFLAGS = -Wl,-Map,$(TARGET).map 
 ## Optional, but often ends up with smaller code
 LDFLAGS += -Wl,--gc-sections 
+# Uncomment line below to add timestamp wrapper to printf() OR
+# Comment line below, if  undefined reference to `__wrap_printf'
+# LDFLAGS += -Wl,--wrap=printf
 ## Relax shrinks code even more, but makes disassembly messy
 ## LDFLAGS += -Wl,--relax
 LDFLAGS += -Wl,-u,vfprintf -lprintf_flt -lm  ## for floating-point printf
@@ -79,12 +80,13 @@ $(TARGET).elf: $(OBJECTS)
 ## These targets don't have files named after them
 .PHONY: all disassemble disasm eeprom size clean squeaky_clean flash fuses
 
+
 complete: all flash all_clean
 
 all: $(TARGET).hex 
 
 static: 
-	cppcheck --std=c99 --platform=avr8 --enable=all ../../. 2> cppcheck.txt
+	cppcheck --std=c99 --platform=avr8 --enable=all --suppressions-list=$(DEPTH)suppressions.txt . 2> cppcheck.txt
 
 debug:
 	@echo
@@ -108,7 +110,7 @@ clean:
 	rm -f $(TARGET).elf $(TARGET).hex $(TARGET).obj \
 	$(TARGET).o $(TARGET).d $(TARGET).eep $(TARGET).lst \
 	$(TARGET).lss $(TARGET).sym $(TARGET).map $(TARGET)~ \
-$(TARGET).eeprom cppcheck.txt
+	$(TARGET).eeprom cppcheck.txt
 
 all_clean:
 	rm -f *.elf *.hex *.obj *.o *.d *.eep *.lst *.lss *.sym *.map *~ *.eeprom core
@@ -132,34 +134,6 @@ flash_eeprom: $(TARGET).eeprom
 
 avrdude_terminal:
 	$(AVRDUDE) -c $(PROGRAMMER_TYPE) -p $(MCU) $(PROGRAMMER_ARGS) -nt
-
-## If you've got multiple programmers that you use, 
-## you can define them here so that it's easy to switch.
-## To invoke, use something like `make flash_arduinoISP`
-flash_usbtiny: PROGRAMMER_TYPE = usbtiny
-flash_usbtiny: PROGRAMMER_ARGS =  # USBTiny works with no further arguments
-flash_usbtiny: flash
-
-flash_dragon: PROGRAMMER_TYPE = dragon
-flash_dragon: PROGRAMMER_ARGS =  -c dragon_isp -P usb 
-flash_dragon: flash
-
-flash_usbasp: PROGRAMMER_TYPE = usbasp
-flash_usbasp: PROGRAMMER_ARGS =  # USBasp works with no further arguments
-flash_usbasp: flash
-
-flash_atmelice: PROGRAMMER_TYPE = atmelice
-flash_atmelice: PROGRAMMER_ARGS = -P $(SERIAL) 
-## (for windows) flash_arduinoISP: PROGRAMMER_ARGS = -b 19200 -P com5
-flash_atmelice: flash
-
-flash_snap: PROGRAMMER_TYPE = snap_isp
-flash_snap: PROGRAMMER_ARGS = -P usb 
-flash_snap: flash
-
-flash_xplain: PROGRAMMER_TYPE = xplainedmini
-flash_xplain: PROGRAMMER_ARGS =  # USBTiny works with no further arguments
-flash_xplain: flash
 
 ##########------------------------------------------------------##########
 ##########       Fuse settings and suitable defaults            ##########
