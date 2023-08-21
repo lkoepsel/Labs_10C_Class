@@ -40,31 +40,39 @@ Each lab directory also contains the Lab document as well as additional document
 ## Backup env.make
 As *env.make* isn't backed up by git, here is the file's contents. Copy the contents, paste them into a new file then save that file as env.make at the root level of your Labs_10C_Class folder (same level as the *templates/* and *dev/*:
 ```make
-# Environmental variables for specific boards
+# This file contains the environmental variables to compile/link/load AVR_C
+# Only one section may be used at a time, each section describes a specific board
+# Comment out the sections which won't be used
+# After switching boards, Library must be re-compiled
+# Use "make LIB_clean" to force a re-compile of the Library
+
+# Possible Serial Ports on Mac
+# /dev/cu.usbserial-01D5BFFC
+# /dev/cu.usbmodem5101
+# /dev/cu.usbmodem14101
+
+# Possible Serial Ports on Windows
+# COM3
+# COM4
+# COM9
 
 # Arduino UNO and compatible boards
 MCU = atmega328p
-SERIAL = /dev/cu.usbmodem14101
-F_CPU = 16000000UL  
-BAUD  = 9600UL
+SERIAL = /dev/cu.usbserial-AR0JYQQB
+F_CPU = 16000000UL
+BAUD  = 250000UL
 SOFT_RESET = 0
-LIBDIR = ../../../Library
+LIBDIR = $(DEPTH)Library
 PROGRAMMER_TYPE = Arduino
 PROGRAMMER_ARGS = -F -V -P $(SERIAL) -b 115200
 
-# If you switch board types i.e; Uno to Xplained Mini (not Uno to different Uno)
-# The Library must be re-compiled, to do so, erase the Library objects by
-# "make LIB_clean" followed by a "make flash"
-# Or copy and paste below into your terminal:
-# make LIB_clean && make flash
-
-# Microchip 328PB Xplained Mini board
+## Microchip 328PB Xplained Mini environmental variables
 # MCU = atmega328pb
-# SERIAL = /dev/cu.usbmodem3102
-# F_CPU = 16000000UL  
+# SERIAL = /dev/cu.usbmodem14102
+# F_CPU = 16000000UL
 # BAUD  = 9600UL
-# SOFT_RESET = 1
-# LIBDIR = ../../Library
+# SOFT_RESET = 0
+# LIBDIR = $(DEPTH)Library
 # PROGRAMMER_TYPE = xplainedmini
 # PROGRAMMER_ARGS = 
 ```
