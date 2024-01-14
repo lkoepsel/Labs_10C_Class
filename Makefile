@@ -9,11 +9,27 @@ include $(DEPTH)env.make
 ##########     Won't need to change if they're in your PATH     ##########
 ##########------------------------------------------------------##########
 
-CC = avr-gcc
-OBJCOPY = avr-objcopy
-OBJDUMP = avr-objdump
-AVRSIZE = avr-size
-AVRDUDE = avrdude
+# Change the line below to TOOLCHAIN = arduino, if you want to use the Arduino IDE tools
+# And uncomment the appropriate block of code based on your OS
+TOOLCHAIN = 
+ifeq ($(TOOLCHAIN), arduino)
+	# macOS lines, remove both the # and the following space
+	# BIN = /Applications/Arduino.app/Contents/Java/hardware/tools/avr/bin/
+	# AVRDUDECONF = -C /Applications/Arduino.app/Contents/Java/hardware/arduino/avr/bootloaders/gemma/avrdude.conf
+
+	# Windows lines, remove both the # and the following space
+	# BIN = 'C:\Program Files (x86)\Arduino\hardware\tools\avr\bin\'
+	# AVRDUDECONF = '-CC:\Program Files (x86)\Arduino\hardware\arduino\avr\bootloaders\gemma\avrdude.conf'	
+else
+	BIN =
+	AVRDUDECONF = 
+endif
+
+CC = $(BIN)avr-gcc
+OBJCOPY = $(BIN)avr-objcopy
+OBJDUMP = $(BIN)avr-objdump
+AVRSIZE = $(BIN)avr-size
+AVRDUDE = $(BIN)avrdude
 
 ##########------------------------------------------------------##########
 ##########                   Makefile Magic!                    ##########
@@ -124,7 +140,7 @@ LIB_clean:
 ##########------------------------------------------------------##########
 
 flash: $(TARGET).hex 
-	$(AVRDUDE) -c $(PROGRAMMER_TYPE) -p $(MCU) $(PROGRAMMER_ARGS) -U flash:w:$<
+	$(AVRDUDE) $(AVRDUDECONF) -c $(PROGRAMMER_TYPE) -p $(MCU) $(PROGRAMMER_ARGS) -U flash:w:$<
 
 ## An alias
 program: flash

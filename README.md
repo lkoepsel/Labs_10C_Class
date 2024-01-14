@@ -37,8 +37,34 @@ Each lab directory also contains the Lab document as well as additional document
 * *templates* - template directories for each of the lab execises. This directory must be duplicated to be used and called *dev*. **This directory is tracked by git and could be over-written in the next clone operation.**
 * *dev* - the student's version of the templates directory, where the students will make changes to the lab files. **This directory is not tracked by git and won't be overwritten.**
 
-## Backup env.make
-As *env.make* isn't backed up by git, here is the file's contents. Copy the contents, paste them into a new file then save that file as env.make at the root level of your Labs_10C_Class folder (same level as the *templates/* and *dev/*:
+## Change Makefile to Use Arduino Tool Chain
+The *Makefile* has a variable `TOOLCHAIN = `, which allows you to use either, a system-installed toolchain (default) or the toolchain installed by the legacy *Arduino (1.8.x) IDE*. 
+
+In order to use the latter, perform the following steps:
+1. Add *arduino* to the `TOOLCHAIN` variable as in `TOOLCHAIN = arduino`
+2. Uncomment, by removing the leading `# ` *(this is pound sign **AND** the following space)* from the lines `BIN = ...` and `AVRDUDECONF = ...` lines appropriate to your operating system
+
+```bash
+# Change the line below to TOOLCHAIN = arduino, if you want to use the Arduino IDE tools
+# And uncomment the appropriate block of code based on your OS
+TOOLCHAIN = 
+ifeq ($(TOOLCHAIN), arduino)
+	# macOS lines, remove both the # and the following space
+	# BIN = /Applications/Arduino.app/Contents/Java/hardware/tools/avr/bin/
+	# AVRDUDECONF = -C /Applications/Arduino.app/Contents/Java/hardware/arduino/avr/bootloaders/gemma/avrdude.conf
+
+	# Windows lines, remove both the # and the following space
+	# BIN = 'C:\Program Files (x86)\Arduino\hardware\tools\avr\bin\'
+	# AVRDUDECONF = '-CC:\Program Files (x86)\Arduino\hardware\arduino\avr\bootloaders\gemma\avrdude.conf'	
+else
+	BIN =
+	AVRDUDECONF = 
+endif
+```
+**The `BIN = ...` and `AVRDUDECONF = ...` lines must be indented only with a `tab` at the beginning of the line for make to accept the lines.**
+
+## Create env.make
+As *env.make* isn't backed up by git, you will need to create one. Here is the file's contents. Copy the contents, paste them into a new file then save that file as env.make at the root level of your Labs_10C_Class folder (same level as the *templates/* and *dev/*:
 ```make
 # This file contains the environmental variables to compile/link/load AVR_C
 # Only one section may be used at a time, each section describes a specific board
