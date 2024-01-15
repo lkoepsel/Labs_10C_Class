@@ -103,15 +103,20 @@ As *env.make* isn't backed up by git, you will need to create one. Again, use yo
 # COM4
 # COM9
 
+# Options for TOOLCHAIN are 'arduino' or blank
+# Options for OS are 'mac' or 'windows'
+
 # Arduino UNO and compatible boards
 MCU = atmega328p
-SERIAL = /dev/cu.usbserial-AR0JYQQB
+SERIAL = /dev/cu.usbmodem3101
 F_CPU = 16000000UL
 BAUD  = 250000UL
 SOFT_RESET = 0
 LIBDIR = $(DEPTH)Library
 PROGRAMMER_TYPE = Arduino
 PROGRAMMER_ARGS = -F -V -P $(SERIAL) -b 115200
+TOOLCHAIN = arduino
+OS = mac
 
 ## Microchip 328PB Xplained Mini environmental variables
 # MCU = atmega328pb
@@ -122,7 +127,14 @@ PROGRAMMER_ARGS = -F -V -P $(SERIAL) -b 115200
 # LIBDIR = $(DEPTH)Library
 # PROGRAMMER_TYPE = xplainedmini
 # PROGRAMMER_ARGS = 
+# TOOLCHAIN = 
+# OS = mac
 ```
+
+You will need to set the following:
+* **SERIAL =** to the serial port you found using the Arduino IDE
+* **TOOLCHAIN = arduino** delete the word 'arduino if you wish to use the locally installed GNU C tool chain'
+* **OS = mac** replace 'mac' with 'windows' if on a Windows PC
 ### 4. CoolTerm
 Install or confirm CoolTerm is installed on your system. It is a Multi-platform serial monitor, for free and has phenomenal scripting capabilities as well.
 
