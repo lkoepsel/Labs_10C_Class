@@ -34,18 +34,10 @@ For this class, all of the content will be pre-installed on the *RPi*. If you wi
 ## Usage
 The recommended method to develop code using this repository is to use *VS Code* and your *terminal* program, side-by-side. This allows you to quickly and easily perform functions in either window.
 
-### VS Code Steps
-In the steps below, *Ctrl/CMD* means press *Ctrl* on Windows/Linux or *Command* on a Mac.
-
-1. Open *VS Code* on your computer.
-1. Press *Shift-Ctrl/CMD-P*, to *Show All Commands* in *VS Code*.
-1. Enter "*remote*" and click on "*Remote-SSH: Connect to Host...*"
-1. Enter your *RPi* username and hostname like this: *pi10C@pi10C01.local*
-1. Enter your password when prompted
-1. It will take a few minutes for *VS Code* to connect, then it will prompt for a folder to open.
-1. Click on the blue box *Open Folder* then click on *Labs_10C_Class* in the selection dropdown. **ALWAYS OPEN THE FOLDER AND NOT INDIVIDUAL FILES**, it will make your life much easier!
-1. If prompted, click on "Yes, I trust the Authors".
-1. Make the *VS Code* window fill the left half of your monitor screen.
+To start:
+1. Connect the *Uno* to the *Raspberry Pi* via the USB cable.
+1. Put the Raspberry Pi power supply into an outlet and connect the USB-C cable from the power supply into the USB C connector on the *Raspberry Pi*.
+1. The Raspberry Pi, red light will come on and the green light will blink sporadically.
 
 ### Terminal Steps
 
@@ -66,6 +58,20 @@ pi10C@pi10c.local's password:
 ```
 This will connect your computer to the *RPi* via a secure connection (*SSH*) and you will now be in the *command line interface (CLI)* of the *Raspberry Pi*.
 
+### VS Code Steps
+In the steps below, *Ctrl/CMD* means press *Ctrl* on Windows/Linux or *Command* on a Mac.
+
+1. Open *VS Code* on your computer.
+1. Press *Shift-Ctrl/CMD-P*, to *Show All Commands* in *VS Code*.
+1. Enter "*remote*" and click on "*Remote-SSH: Connect to Host...*"
+1. Enter your *RPi* username and hostname like this: *pi10C@pi10C01.local*
+1. Enter your password when prompted
+1. It will take a few minutes for *VS Code* to connect, then it will prompt for a folder to open.
+1. Click on the blue box *Open Folder* then click on *Labs_10C_Class* in the selection dropdown. **ALWAYS OPEN THE FOLDER AND NOT INDIVIDUAL FILES**, it will make your life much easier!
+1. If prompted, click on "Yes, I trust the Authors".
+1. Make the *VS Code* window fill the left half of your monitor screen.
+
+
 Your screen now similar to this, with *VS Code* on the left and *Terminal* on the right:
 
 ![Desired Screen Setup](./docs/screen_setup.png)
@@ -73,8 +79,6 @@ Your screen now similar to this, with *VS Code* on the left and *Terminal* on th
 ## Confirm Working System
 
 ### Confirm in Terminal
-
-**Plug the USB cable into the Uno and into the Raspberry Pi.**
 
 To confirm everything is setup correctly, please perform the following steps in your *Terminal*:
 ```bash
@@ -114,11 +118,11 @@ And your Uno will be blinking quickly (2.5 times per second).
 Now switch to the *VS Code* window. 
 1. Make sure the top icon in the left-side panel is selected to view your files. The second panel will show *EXPLORER* at the top.
 1. Click on the ">" to the left of examples, to show the folders.
-1. Click on the ">" to the left of the folder *blink*
+1. Click on the ">" to the left of the folder *blink* to show the files.
 1. Click on *main.c* to show the file in the main *Editor* window
 1. Go to line 10 and change *200* to *1000*
-1. Press Shift-Ctrl/CMD-b and press return (*compile and upload code (upload): flash*)
-1. After a small delay to compile and upload the code, the Uno will be blinking much slower
+1. Press *Shift-Ctrl/CMD-b* and press *return* (*compile and upload code (upload): flash*)
+1. After a small delay to compile and upload the code, the *Uno* will be blinking much slower (once per second).
 
 **If both tests worked, you are now ready to code!!!**
 
