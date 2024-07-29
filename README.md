@@ -40,10 +40,10 @@ In the steps below, *Ctrl/CMD* means press *Ctrl* on Windows/Linux or *Command* 
 1. Open *VS Code* on your computer.
 1. Press *Shift-Ctrl/CMD-P*, to *Show All Commands* in *VS Code*.
 1. Enter "*remote*" and click on "*Remote-SSH: Connect to Host...*"
-1. Enter your *RPi* username and hostname like this: *pi10C01@pi10C01.local*
+1. Enter your *RPi* username and hostname like this: *pi10C@pi10C01.local*
 1. Enter your password when prompted
 1. It will take a few minutes for *VS Code* to connect, then it will prompt for a folder to open.
-1. Click on the blue box *Open Folder* then click on Labs_10C_Class in the selection dropdown. **ALWAYS OPEN THE FOLDER AND NOT INDIVIDUAL FILES**, it will make your life much easier!
+1. Click on the blue box *Open Folder* then click on *Labs_10C_Class* in the selection dropdown. **ALWAYS OPEN THE FOLDER AND NOT INDIVIDUAL FILES**, it will make your life much easier!
 1. If prompted, click on "Yes, I trust the Authors".
 1. Make the *VS Code* window fill the left half of your monitor screen.
 
@@ -51,13 +51,13 @@ In the steps below, *Ctrl/CMD* means press *Ctrl* on Windows/Linux or *Command* 
 
 1. In Windows, enter *Terminal* in the Windows search bar, click on either *Terminal* or *Command Prompt*. On a Mac, press *Cmd-Space* to pull up the search and enter *Terminal* then return.
 1. Make the *Terminal* window fill the right half of your monitor screen.
-1. In the window, which opens enter *ssh *pi10C01@pi10C01.local*, using your *RPi* username and hostname.
+1. In the window, which opens enter *ssh *pi10C@pi10C01.local*, using your *RPi* username and hostname.
 1. If this the first time, you have connected, you will need to respond "*yes*" to "*...continue connecting (yes/no/[fingerprint])?*".
 
 It will look similar to this:
 ```bash
-ssh pi10C@pi10C.local
-The authenticity of host 'pi10c.local (192.168.1.112)' can't be established.
+ssh pi10C@pi10C01.local
+The authenticity of host 'pi10c01.local (192.168.1.75)' can't be established.
 ED25519 key fingerprint is SHA256:1xivnuODhnLQR0VzTC4JIlHzYzZ9/6zm9R/gjh6/TIo.
 This key is not known by any other names.
 Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
@@ -69,5 +69,57 @@ This will connect your computer to the *RPi* via a secure connection (*SSH*) and
 Your screen now similar to this, with *VS Code* on the left and *Terminal* on the right:
 
 ![Desired Screen Setup](./docs/screen_setup.png)
+
+## Confirm Working System
+
+### Confirm in Terminal
+
+**Plug the USB cable into the Uno and into the Raspberry Pi.**
+
+To confirm everything is setup correctly, please perform the following steps in your *Terminal*:
+```bash
+# change directories to the Labs folder
+cd Labs_10C_Class/
+cd examples/blink
+make complete
+```
+
+If everything is successful, you will see the end of the screen printout look like this:
+```bash
+avrdude: AVR device initialized and ready to accept instructions
+
+Reading | ################################################## | 100% 0.00 s
+
+avrdude: device signature = 0x1e950f (probably m328p)
+avrdude: Note: flash memory has been specified, an erase cycle will be performed.
+         To disable this feature, specify the -D option.
+avrdude: erasing chip
+avrdude: reading input file main.hex for flash
+         with 1698 bytes in 1 section within [0, 0x6a1]
+         using 14 pages and 94 pad bytes
+avrdude: writing 1698 bytes flash ...
+
+Writing |                                                    | 0% 0.00 s avrdude: padding flash [0x0680, 0x06ff]
+Writing | ################################################## | 100% 0.36 s
+
+avrdude: 1698 bytes of flash written
+
+avrdude done.  Thank you.
+```
+
+And your Uno will be blinking quickly (2.5 times per second).
+
+### Confirm in VS Code
+
+Now switch to the *VS Code* window. 
+1. Make sure the top icon in the left-side panel is selected to view your files. The second panel will show *EXPLORER* at the top.
+1. Click on the ">" to the left of examples, to show the folders.
+1. Click on the ">" to the left of the folder *blink*
+1. Click on *main.c* to show the file in the main *Editor* window
+1. Go to line 10 and change *200* to *1000*
+1. Press Shift-Ctrl/CMD-b and press return (*compile and upload code (upload): flash*)
+1. After a small delay to compile and upload the code, the Uno will be blinking much slower
+
+**If both tests worked, you are now ready to code!!!**
 
 
