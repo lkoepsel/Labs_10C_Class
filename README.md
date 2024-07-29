@@ -2,38 +2,37 @@
 ### Using *C*: Classroom Edition
 
 ## Introduction
-This repository is for the classroom using the Arduino Uno, the *C* tool chain (avr-gcc, avrdude etc) and the [*AVR C Library*](https://github.com/lkoepsel/AVR_C). It includes directories for all of the lab assignments along with examples as to how to use the *AVR C* Library. The content is for students who desire understanding *C* using the *Arduino Uno*.
+This repository is for an introductory course on the *C* language using the Arduino Uno, the *C* tool chain (avr-gcc, avrdude etc) and the [*AVR C Library*](https://github.com/lkoepsel/AVR_C). The content is for students who desire understanding *C* using an embedded microcontroller, in this case the *Arduino Uno R3*. This content uses the *Arduino tool chain* via command line (also called the *terminal*), it doesn't use the Arduino IDE GUI nor does it use the Arduino software framework.  
 
-Each lab contains multiple folders, each folder is a specific programming exercise. Within each folder is a file called *main.c* and a file called *Makefile*. The file *main.c* is the template for the exercise and the *Makefile* is the required file using *make* to compile/link/load it to an UNO. Think of the *main.c* file as the Arduino IDE sketch and the *Makefile* as a command-line version of the *Arduino IDE*.
-
-In order to use this content, one must either use the *Arduino tool chain* via command line or have the *GNU C tool chain* installed on their computer. This [post](https://wellys.com/posts/avr_c_setup/) advises how to do either of these tasks on all three platforms, Linux, macOS and Windows. 
+The directory, *templates*, contains the programs for each lab. Each template folder contains multiple folders, each folder is a specific programming exercise. Within each exercise folder is a file called *main.c* and a file called *Makefile*. The file *main.c* is the template for the exercise and the *Makefile* is the required file using *make* to compile/link/load it to an UNO. Think of the *main.c* file as the Arduino IDE sketch and the *Makefile* as a command-line version of the *Arduino IDE*.
 
 ## Dependencies
 In order to use this content you **must** have the following installed on your computer:
 
-* **Arduino Legacy IDE (1.8.x)** - C tool chain, *instructions are below*
-* **Cool Term** - serial monitor, *instructions below*
+* **Arduino Legacy IDE (1.8.x)** - Arduino C/C++ tool chain, *installation instructions are below*
+* **CoolTerm** - serial monitor, *installation instructions below*
 * **Terminal** - command line monitor, *part of operating system*
 * **Sublime Text** or **Notepad++** - code editor, *installed by user*
 
 The instructions will refer to specific capabilities such as a *code editor* or *C tool chain*, use the list above to identify the programs associated with the capability.
 
-## Sources
-* [This repository](https://github.com/lkoepsel/Labs_10C_Class)
-* [Developing in C on the AVR ATmega328P](https://www.wellys.com/posts/courses_avr_c/)
-* [AVR_C Github Repository](https://github.com/lkoepsel/AVR_C) This link is provided as additional documentation, the Library and examples in AVR_C are included in this repository. It is included in case, someone wants to have a public version available of these files.
+## Additional Sources of Information
+
+* [Developing in C on the AVR ATmega328P](https://www.wellys.com/posts/courses_avr_c/) A series of web pages explaining in detail how to use specific aspects of the AVR C software framework.
+* [AVR_C Github Repository](https://github.com/lkoepsel/AVR_C) The repository link is provided for additional documentation. The *AVR C Library* and *examples* are included in the *MPC 10C Labs* repository.
+* [AVR LibC](https://www.nongnu.org/avr-libc/) This library is the basis for the *C*language for the AVR. From GNU "*AVR Libc is a Free Software project whose goal is to provide a high quality C library for use with GCC on Atmel AVR microcontrollers.*" 
 
 ## Directories
 **Note: *Library* and *examples* will be maintained identical to the [AVR_C versions](https://github.com/lkoepsel/AVR_C)**
 
 * *examples* - contains code demonstrating how to use specific functions in the Library
-* *Library* - AVR *C* Library, specific Arduino functions rewritten in *C* such as analogRead(), analogWrite(), digitalRead(), and pinMode()
+* *Library* - *AVR C Library*, specific Arduino functions rewritten in *C* such as analogRead(), analogWrite(), digitalRead(), and pinMode()
 * *templates* - template directories for each of the lab execises. This directory must be duplicated to be used and called *dev*. **This directory is tracked by git and could be over-written in the next clone operation.**
 * *dev* - the student's version of the templates directory, where the students will make changes to the lab files. **This directory is not tracked by git and won't be overwritten.**
 
 ## Installation
 ### 1. Copy repository
-This step will add the lab programming content to your system. If you have git (*or want to learn how to use git*) install [git on your system](/posts/avr_c_git/). You may also simply download the repository as a zip file, extract it and copy to your Documents directory.
+This step will add the lab programming content to your system. You will download the repository as a zip file, extract it and copy to your Documents directory.
 
 #### To download and extract
 1. Click on the green button **<> Code** on the [repository](https://github.com/lkoepsel/Labs_10C_Class) page.
@@ -42,50 +41,8 @@ This step will add the lab programming content to your system. If you have git (
 1. Move the folder extracted to your *Documents* directory.
 1. Duplicate the *templates* folder and call it *dev*
 
-#### To use git
-Clone this repository to your system, **follow all of the steps EXACTLY**:
-
-```
-# open a terminal window in your operating system
-# change your directory to where you want to keep this lab
-cd Documents
-# clone this repository to directory Labs_10C_Class
-git clone https://github.com/lkoepsel/Labs_10C_Class.git
-# switch to the cloned directory
-cd Labs_10C_Class
-# copy the templates folder to the new dev folder
-cp -r templates dev
-```
-### 2. Change Makefile to Use Arduino Tool Chain
-The *Makefile* has a variable `TOOLCHAIN = `, which allows you to use either, a system-installed toolchain (default, *GNU C tool chain*) or the toolchain installed by the legacy *Arduino (1.8.x) IDE*. 
-
-In order to use the latter, perform the following steps:
-1. In your code editor, open the *Makefile* in the root directory, as in *Labs_10C_Class/Makefile*.
-1. Add *arduino* to the `TOOLCHAIN` variable as in `TOOLCHAIN = arduino`
-1. Uncomment, by removing the leading `# ` *(this is pound sign **AND** the following space)* from the lines `BIN = ...` and `AVRDUDECONF = ...` lines appropriate to your operating system
-
-**Below is an example of the directions, using a Windows PC:**
-```bash
-# Change the line below to TOOLCHAIN = arduino, if you want to use the Arduino IDE tools
-# And uncomment the appropriate block of code based on your OS
-TOOLCHAIN = arduino
-ifeq ($(TOOLCHAIN), arduino)
-	# macOS lines, remove both the # and the following space
-	# BIN = /Applications/Arduino.app/Contents/Java/hardware/tools/avr/bin/
-	# AVRDUDECONF = -C /Applications/Arduino.app/Contents/Java/hardware/arduino/avr/bootloaders/gemma/avrdude.conf
-
-	# Windows lines, remove both the # and the following space
-	BIN = 'C:\Program Files (x86)\Arduino\hardware\tools\avr\bin\'
-	AVRDUDECONF = '-CC:\Program Files (x86)\Arduino\hardware\arduino\avr\bootloaders\gemma\avrdude.conf'	
-else
-	BIN =
-	AVRDUDECONF = 
-endif
-```
-**The `BIN = ...` and `AVRDUDECONF = ...` lines must be indented only with a `tab` at the beginning of the line for make to accept the lines.**
-
-### 3. Create env.make
-As *env.make* isn't backed up by git, you will need to create one. Again, use your code editor. Copy the contents then paste them into a new file. Save that file as env.make at the root level of your Labs_10C_Class folder (same level as the *templates/* and *dev/*:
+### 2. Create env.make
+As *env.make* isn't backed up by git, you will need to create one. Use your code editor and copy the contents then paste them into a new file. Save that file as env.make at the root level of your Labs_10C_Class folder (same level as the *templates/* and *dev/*:
 ```make
 # This file contains the environmental variables to compile/link/load AVR_C
 # Only one section may be used at a time, each section describes a specific board
@@ -135,8 +92,8 @@ You will need to set the following:
 * **SERIAL =** to the serial port you found using the Arduino IDE
 * **TOOLCHAIN = arduino** delete the word 'arduino if you wish to use the locally installed GNU C tool chain'
 * **OS = mac** replace 'mac' with 'windows' if on a Windows PC
-### 4. CoolTerm
-Install or confirm CoolTerm is installed on your system. It is a Multi-platform serial monitor, for free and has phenomenal scripting capabilities as well.
+### 3. CoolTerm
+Install or confirm *CoolTerm* is installed on your system. It is a multi-platform serial monitor, for free, and has phenomenal scripting capabilities as well.
 
 **ONLY DOWNLOAD FROM THIS SITE:**
 

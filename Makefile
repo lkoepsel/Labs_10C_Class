@@ -6,7 +6,7 @@
 include $(DEPTH)env.make
 ##########------------------------------------------------------##########
 ##########                  Program Locations                   ##########
-##########     Won't need to change if they're in your PATH     ##########
+##########     Be sure to set TOOLCHAIN and OS in env.make      ##########
 ##########------------------------------------------------------##########
 
 ifeq ($(TOOLCHAIN),arduino)
@@ -17,6 +17,10 @@ ifeq ($(TOOLCHAIN),arduino)
     ifeq ($(OS),windows)
         BIN = 'C:\Program Files (x86)\Arduino\hardware\tools\avr\bin\'
         AVRDUDECONF = '-CC:\Program Files (x86)\Arduino\hardware\arduino\avr\bootloaders\gemma\avrdude.conf'
+    endif
+    ifeq ($(OS),raspberry)
+        BIN = /usr/local/arduino/hardware/tools/avr/bin/
+        AVRDUDECONF = -C /usr/local/arduino/hardware/arduino/avr/bootloaders/gemma/avrdude.conf
     endif
 
 else
@@ -47,22 +51,42 @@ TARGET = main
 # Object files: will find all .c/.h files in current directory
 #  and in LIBDIR.  If you have any other (sub-)directories with code,
 #  you can add them in to SOURCES below in the wildcard statement.
-# See Note re: CPPFLAGS if using/not using LIBDIR
-SOURCES=$(wildcard *.c $(LIBDIR)/*.c)
+
+ifeq ($(LIBRARY),no_lib)
+	SOURCES=$(wildcard *.c )
+	CPPFLAGS = -DF_CPU=$(F_CPU) -DBAUD=$(BAUD)  -DSOFT_BAUD=$(SOFT_BAUD)  \
+	-DSOFT_RESET=$(SOFT_RESET) -DTC3_RESET=$(TC3_RESET)
+
+else
+    SOURCES=$(wildcard *.c $(LIBDIR)/*.c)
+    CPPFLAGS = -DF_CPU=$(F_CPU) -DBAUD=$(BAUD)   -DSOFT_BAUD=$(SOFT_BAUD) -I. \
+	-I$(LIBDIR) -DSOFT_RESET=$(SOFT_RESET) -DTC3_RESET=$(TC3_RESET)
+endif
+
+# See Note re: CPPFLAGS if using/not using LIBDIR, pick only one LIB or NO_LIB
+# LIB - Uncomment if the AVR_C Library is required (default), also 
+# uncomment LIB below in CPPFLAGS (and comment NO_LIB)
+# SOURCES=$(wildcard *.c $(LIBDIR)/*.c)
+
+# NO_LIB - Uncomment if you wish the smallest code size and DON'T
+# require AVR_C Library (and comment LIB)
+# SOURCES=$(wildcard *.c )
+
 OBJECTS=$(SOURCES:.c=.o)
 HEADERS=$(SOURCES:.c=.h)
 
 ## Compilation options, type man avr-gcc if you're curious. 
-## Use this CPPFLAGS with LIBDIR if a library directory is known 
-CPPFLAGS = -DF_CPU=$(F_CPU) -DBAUD=$(BAUD) -DSOFT_RESET=$(SOFT_RESET) -I.  -I$(LIBDIR)
+
 # use below to setup gdb and debugging
-CFLAGS = -Og -ggdb -std=gnu99 -Wall -Wundef -Werror
+CFLAGS = -Og -ggdb -std=gnu99 -Wall -Wundef -Werror -Wno-aggressive-loop-optimizations
 # Use below to optimize size
 # CFLAGS = -Os -g -std=gnu99 -Wall
 ## Use short (8-bit) data types 
 CFLAGS += -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums 
 ## Splits up object files per function
-CFLAGS += -ffunction-sections -fdata-sections 
+CFLAGS += -ffunction-sections -fdata-sections
+# if attempting to use %S format specification (strings in progmem), uncomment next line
+CFLAGS += -Wno-format
 LDFLAGS = -Wl,-Map,$(TARGET).map 
 ## Optional, but often ends up with smaller code
 LDFLAGS += -Wl,--gc-sections 
@@ -71,7 +95,7 @@ LDFLAGS += -Wl,--gc-sections
 # LDFLAGS += -Wl,--wrap=printf
 ## Relax shrinks code even more, but makes disassembly messy
 ## LDFLAGS += -Wl,--relax
-LDFLAGS += -Wl,-u,vfprintf -lprintf_flt -lm  ## for floating-point printf
+## LDFLAGS += -Wl,-u,vfprintf -lprintf_flt -lm  ## for floating-point printf
 ## LDFLAGS += -Wl,-u,vfprintf -lprintf_min      ## for smaller printf
 TARGET_ARCH = -mmcu=$(MCU)
 
@@ -96,18 +120,39 @@ $(TARGET).elf: $(OBJECTS)
 .PHONY: all disassemble disasm eeprom size clean squeaky_clean flash fuses
 
 
-complete: all flash all_clean
+complete: all_clean verbose
 
-all: $(TARGET).hex 
+compile: $(TARGET).hex 
 
 static: 
 	cppcheck --std=c99 --platform=avr8 --enable=all --suppressions-list=$(DEPTH)suppressions.txt . 2> cppcheck.txt
 
-debug:
+env:
+	@echo "MCU:"  $(MCU)
+	@echo "SERIAL:"  $(SERIAL)
+	@echo "F_CPU:" $(F_CPU)
+	@echo "BAUD:"  $(BAUD)
+	@echo "SOFT_RESET:"  $(SOFT_RESET)
+	@echo "LIB_DIR:"  $(LIBDIR)
+	@echo "LIBRARY:"  $(LIBRARY)
+	@echo "PROGRAMMER_TYPE:"  $(PROGRAMMER_TYPE)
+	@echo "PROGRAMMER_ARGS:"  $(PROGRAMMER_ARGS)
+	@echo "TOOLCHAIN:"  $(TOOLCHAIN)
+	@echo "OS:"  $(OS)
+	@echo "BIN:"  $(BIN)
+	@echo "TC3_RESET:"  $(TC3_RESET)
 	@echo
 	@echo "Source files:"   $(SOURCES)
-	@echo "MCU, F_CPU, BAUD:"  $(MCU), $(F_CPU), $(BAUD)
 	@echo	
+
+help:
+	@echo "make compile - compile only (Arduino verify)"
+	@echo "make flash - show program size and flash to board (Arduino upload)"
+	@echo "make clean - delete all non-source files in folder"
+	@echo "make complete - delete all .o files in folder & Library then verbose flash, for complete rebuild/upload"
+	@echo "make verbose - make flash with more programming information for debugging upload"
+	@echo "make env - print active env.make variables"
+	@echo "make help - print this message"
 
 # Optionally create listing file from .elf
 # This creates approximate assembly-language equivalent of your code.
@@ -119,8 +164,8 @@ disasm: disassemble
 
 # Optionally show how big the resulting program is 
 size:  $(TARGET).elf
-	$(AVRSIZE) -C --mcu=$(MCU) $(TARGET).elf
-
+# 	$(AVRSIZE) -G --mcu=$(MCU) $(TARGET).elf
+	$(OBJDUMP) -Pmem-usage $(TARGET).elf
 clean:
 	rm -f $(TARGET).elf $(TARGET).hex $(TARGET).obj \
 	$(TARGET).o $(TARGET).d $(TARGET).eep $(TARGET).lst \
@@ -128,24 +173,25 @@ clean:
 	$(TARGET).eeprom cppcheck.txt
 
 all_clean:
-	rm -f *.elf *.hex *.obj *.o *.d *.eep *.lst *.lss *.sym *.map *~ *.eeprom core
-
-LIB_clean:
-	rm -f $(LIBDIR)/*.o
+	rm -f *.elf *.hex *.obj *.o *.d *.eep *.lst *.lss *.sym *.map *~ *.eeprom core $(LIBDIR)/*.o
 
 ##########------------------------------------------------------##########
 ##########              Programmer-specific details             ##########
 ##########           Flashing code to AVR using avrdude         ##########
 ##########------------------------------------------------------##########
 
-flash: $(TARGET).hex 
-	$(AVRDUDE) $(AVRDUDECONF) -c $(PROGRAMMER_TYPE) -p $(MCU) $(PROGRAMMER_ARGS) -U flash:w:$<
+flash: $(TARGET).hex $(TARGET).lst size
+	@echo "use make verbose to see complete programming information"
+	$(AVRDUDE) -q -q $(AVRDUDECONF) -c $(PROGRAMMER_TYPE) -p $(MCU) $(PROGRAMMER_ARGS) -U flash:w:$<
+
+verbose: $(TARGET).hex $(TARGET).lst size
+	$(AVRDUDE) -v -v $(AVRDUDECONF) -c $(PROGRAMMER_TYPE) -p $(MCU) $(PROGRAMMER_ARGS) -U flash:w:$<
 
 ## An alias
 program: flash
 
-flash_eeprom: $(TARGET).eeprom
-	$(AVRDUDE) -c $(PROGRAMMER_TYPE) -p $(MCU) $(PROGRAMMER_ARGS) -U eeprom:w:$<
+flash_eeprom: $(TARGET).eeprom 
+	$(AVRDUDE) $(AVRDUDECONF) -c $(PROGRAMMER_TYPE) -p $(MCU) $(PROGRAMMER_ARGS) -U eeprom:w:$<
 
 avrdude_terminal:
 	$(AVRDUDE) -c $(PROGRAMMER_TYPE) -p $(MCU) $(PROGRAMMER_ARGS) -nt
@@ -164,7 +210,7 @@ FUSE_STRING = -U lfuse:w:$(LFUSE):m -U hfuse:w:$(HFUSE):m -U efuse:w:$(EFUSE):m
 
 fuses: 
 	$(AVRDUDE) -c $(PROGRAMMER_TYPE) -p $(MCU) \
-			   $(PROGRAMMER_ARGS) $(FUSE_STRING)
+	           $(PROGRAMMER_ARGS) $(FUSE_STRING)
 show_fuses:
 	$(AVRDUDE) -c $(PROGRAMMER_TYPE) -p $(MCU) $(PROGRAMMER_ARGS) -nv	
 
