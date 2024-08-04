@@ -29,24 +29,26 @@ In order to use this content you need to have the following installed on **your*
 
 ## Installation
 
-For this class, all of the content will be pre-installed on the *RPi*. If you wish to create a similar *RPi* from scratch, [here](./docs/RPI_10C.md) are the instructions. 
+For this class, all of the content will be pre-installed on the *RPi*. If you wish to create a similar *RPi* from scratch, [here](docs/RPi_10C.md) are the instructions. 
 
 ## Usage
 The recommended method to develop code using this repository is to use *VS Code* and your *terminal* program, side-by-side. This allows you to quickly and easily perform functions in either window.
 
 To start:
 1. Connect the *Uno* to the *Raspberry Pi* via the USB cable.
-1. Put the Raspberry Pi power supply into an outlet and connect the USB-C cable from the power supply into the USB C connector on the *Raspberry Pi*.
-1. The Raspberry Pi, red light will come on and the green light will blink sporadically.
+1. Put the Raspberry Pi power supply into an outlet and connect the USB-C cable from the power supply into the *USB C* connector on the *Raspberry Pi*.
+1. The *Raspberry Pi* red light will come on and the green light will blink sporadically. Allow the *RPi* to run for a few minutes on initial boot.
 
 ### Terminal Steps
 
-1. In Windows, enter *Terminal* in the Windows search bar, click on either *Terminal* or *Command Prompt*. On a Mac, press *Cmd-Space* to pull up the search and enter *Terminal* then return.
+1. Open the Terminal application:
+    * *Windows*, enter *Terminal* in the Windows search bar, click on either *Terminal* or *Command Prompt*
+    * *macOS*, press *Cmd-Space* to pull up the search and enter *Terminal* then return
 1. Make the *Terminal* window fill the right half of your monitor screen.
-1. In the window, which opens enter *ssh *pi10C@pi10C01.local*, using your *RPi* username and hostname.
+1. At the command prompt *(this is the name of prompt in Terminal)*, enter *ssh *pi10C@pi10C01.local*, using your *RPi* username and hostname. The *username* will always be *pi10C*, your hostname will be labeled on the *Raspberry Pi* and follow it with a *".local"*.
 1. If this the first time, you have connected, you will need to respond "*yes*" to "*...continue connecting (yes/no/[fingerprint])?*".
 
-It will look similar to this:
+For example, it will look similar to this:
 ```bash
 ssh pi10C@pi10C01.local
 The authenticity of host 'pi10c01.local (192.168.1.75)' can't be established.
@@ -54,7 +56,7 @@ ED25519 key fingerprint is SHA256:1xivnuODhnLQR0VzTC4JIlHzYzZ9/6zm9R/gjh6/TIo.
 This key is not known by any other names.
 Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
 Warning: Permanently added 'pi10c.local' (ED25519) to the list of known hosts.
-pi10C@pi10c.local's password:
+pi10C@pi10c01.local's password:
 ```
 This will connect your computer to the *RPi* via a secure connection (*SSH*) and you will now be in the *command line interface (CLI)* of the *Raspberry Pi*.
 
@@ -117,7 +119,7 @@ And your Uno will be blinking quickly (2.5 times per second).
 
 Now switch to the *VS Code* window. 
 1. Make sure the top icon in the left-side panel is selected to view your files. The second panel will show *EXPLORER* at the top.
-1. Click on the ">" to the left of examples, to show the folders.
+1. Click on the ">" to the left of *examples*, to show the folders.
 1. Click on the ">" to the left of the folder *blink* to show the files.
 1. Click on *main.c* to show the file in the main *Editor* window
 1. Go to line 10 and change *200* to *1000*

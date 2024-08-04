@@ -7,7 +7,7 @@ These are the steps to create a *complete and up-to-date* Standard C development
 1. Updates the OS and adds all prerequisites
 1. Installs Debian Bookworm versions of avr-binutils, avr-gcc, avr-libc and avrdude
 1. Adds [tio 3.5](https://github.com/tio/tio?tab=readme-ov-file), a *CLI-based* serial monitor 
-. Adds the[ AVR_C](https://github.com/lkoepsel/AVR_C/tree/main) library and uses it to test the above
+1. Adds the[ AVR_C](https://github.com/lkoepsel/AVR_C/tree/main) library and uses it to test the above
 1. Install VS Code configuration files for C/C++ and creates default build tasks *AVR_C*
 1. Adds a [hello service](https://github.com/lkoepsel/hello), for identifying the *RPi* in large networks
 
@@ -228,7 +228,6 @@ Ensure you do not have any files open in VS Code for the next two steps.
     ]
 }
 ```
-## ******** pibuildv3.img includes above steps ********
 
 **Note: The *hello service* step below requires Python and the Python flask library to be installed on your PC. If you don't require an automatic notification by the *RPi* when it starts up, you may skip the step. Its typically required in large networks (colleges and universities), where its more difficult to ascertain the IP address or to use *Bonjour*.**
 
