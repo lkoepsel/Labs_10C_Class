@@ -1,5 +1,7 @@
 # Pi10C Hello Server Instructions
 
+These instructions are for the instructor to run the *hello server*.
+
 ## Easy Startup
 Connect to the *hello_server*
 ```bash
@@ -35,6 +37,12 @@ The student can look for their *Raspberry Pi hostname* then use the correspondin
 The solution on Windows, is to install WSL 2 and run WSL at the command prompt. This still might have an issue, if so, see *Links for Solving Windows mDNS*, below.
 3. Once connected to the *hello_server*, switch to the *hello* directory: *cd hello*.
 4. To start the server enter: sudo python -m hello_server_v2. It requires *sudo* as the *flask* application uses port 80, to simplify connection. 
+
+The command line program will also show IP addresses for specific hostnames in the form of the following:
+```bash
+Received text: pi10C09 from IP: 172.24.1.91
+```
+You may also use this line to provide the student with their *IP Address*.
 
 **NOTE: Keep the server running for all students to see their IP Address. Restarting the server, will lose the pre-existing IP Addresses.**
 
