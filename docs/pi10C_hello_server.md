@@ -27,16 +27,16 @@ Ask the students to browse to the address above, for this example: *http://172.2
 The browser window will look like this:
 ![browser](./browser.png) 
 
-The student can look for their *Raspberry Pi hostname* then use the corresponding IP address to connect to the *Pi* in the form *ssh pi10C@172.24.0.252*. This example uses the *IP Address* for pi10C16 in the image above.
+The student can look for their *Raspberry Pi hostname* then use the corresponding IP address to connect to the *Pi* in the form `ssh pi10C@172.24.0.252`. This example uses the *IP Address* for pi10C16 in the image above.
 
 ## Annotated Startup
 1. Plug in the pre-configured *Raspberry Pi* which will serve as the *Pi10C hello server*.
-2. Connect to it via *ssh pi10C@pi10c.local*.
+2. Connect to it via `ssh pi10C@pi10c.local`.
 
     **NOTE:** Connecting via *hostname.local* requires *bonjour/avahi* capability on your system. For all macOS systems, this is already installed, for most Linux installs it is part of the default installation, and on Windows, it doesn't exist. 
 The solution on Windows, is to install WSL 2 and run WSL at the command prompt. This still might have an issue, if so, see *Links for Solving Windows mDNS*, below.
 3. Once connected to the *hello_server*, switch to the *hello* directory: *cd hello*.
-4. To start the server enter: sudo python -m hello_server_v2. It requires *sudo* as the *flask* application uses port 80, to simplify connection. 
+4. To start the server enter: `sudo python -m hello_server_v2`. It requires *sudo* as the *flask* application uses port 80, to simplify connection. 
 
 The command line program will also show IP addresses for specific hostnames in the form of the following:
 ```bash
