@@ -35,7 +35,16 @@ The student can look for their *Raspberry Pi hostname* then use the correspondin
 
     **NOTE:** Connecting via *hostname.local* requires *bonjour/avahi* capability on your system. For all macOS systems, this is already installed, for most Linux installs it is part of the default installation, and on Windows, it doesn't exist. 
 The solution on Windows, is to install WSL 2 and run WSL at the command prompt. This still might have an issue, if so, see *Links for Solving Windows mDNS*, below.
-3. Once connected to the *hello_server*, switch to the *hello* directory: *cd hello*.
+
+It appears that this might be the fix, I haven't found how to create the problem:
+```bash
+# in notepad++
+[wsl2]
+dnsTunneling=false
+# save as C:\Users\username\.wslconfig -- save as text file -- no extension
+wsl
+```
+3. Once connected to the *hello_server*, switch to the *hello* directory: `cd hello`.
 4. To start the server enter: `sudo python -m hello_server_v2`. It requires *sudo* as the *flask* application uses port 80, to simplify connection. 
 
 The command line program will also show IP addresses for specific hostnames in the form of the following:
@@ -46,11 +55,11 @@ You may also use this line to provide the student with their *IP Address*.
 
 **NOTE: Keep the server running for all students to see their IP Address. Restarting the server, will lose the pre-existing IP Addresses.**
 
-If a restart is required, ask the student to enter the following on their command line:
+If a restart is required, and a student is unable to see their *hostname* on the web page. Ask the student to enter the following on their command line:
 ```bash
 sudo systemctl start hello.service
 ```
-
+This command will restart the *hello.service* **on their computer** pinging the *hello_server* once again, for the student to see their IP Address.
 
 
 ## Links for Solving Windows mDNS 
