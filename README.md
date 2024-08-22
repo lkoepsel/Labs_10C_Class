@@ -1,6 +1,10 @@
 # MPC 10C Labs for the Arduino Uno R3
 ### Using *C*: Classroom Edition Fall 2024
 
+## Setup Files:
+**Setup files for [env.make](./docs/env_make.md) and [VS Code](./docs/vs_code.md)**
+
+
 ## Introduction
 This repository is for an introductory course on the *C* language using the Arduino Uno, the *C* tool chain (avr-gcc, avrdude etc) and the [*AVR C Library*](https://github.com/lkoepsel/AVR_C). The content is for students who desire understanding *C* using an embedded microcontroller, in this case the *Arduino Uno R3*. This content uses the *avr* tool chain via command line (also called the *terminal*), it doesn't use the Arduino IDE GUI nor does it use the Arduino software framework.  
 
