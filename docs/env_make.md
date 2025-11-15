@@ -20,14 +20,14 @@ The best thing to do is not change the values in the env.make file. Instead crea
 * SOFT_BAUD - used for baud rate of soft serial port, typically *28800UL*
 
 
-## 1. In your CLI
+## 1. In your CLI or Notepad++ on Windows
 Enter the two commands below to open the nano editor, in the *AVR_C* folder
 ```bash
-cd AVR_C
+cd Labs_10C_Class
 nano env.make
 ```
 
-## 2. In the nano editor
+## 2. In the editor
 Copy and paste the text below. Be sure to go to step 3!
 
 ### env.make
@@ -170,6 +170,6 @@ SOFT_BAUD = 28800UL
 # SOFT_BAUD = 28800UL
 ```
 
-## 3. Save and close *nano*
+## 3. To Save then close *nano* 
 
 *CTRL-s (save) then CTRL-x (exit)*
