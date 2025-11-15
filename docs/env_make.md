@@ -1,5 +1,25 @@
 # env.make required for *make*
 
+## *env.make* variables
+
+The best thing to do is not change the values in the env.make file. Instead create a new section with the changes you wish. 
+
+* MCU - microcontroller type, typically atmega328p
+* SERIAL - serial port for connecting board to computer, see note in env.make
+* F_CPU - frequency of CPU, for atmega328p, 16000000UL
+* USB_BAUD - baud rate for serial communications after programming, typically 250000UL
+* SOFT_RESET - set to 0, only set to 1 if you wish to program a specific reset button
+* LIBDIR - **must be set to  $(DEPTH)Library**
+* LIBRARY set to no_lib if you wish to have the **smallest** possible code size, all functionality must exist in current folder 
+* FLOAT - set to YES to include floating point library (default), otherwise remove YES to shrink code
+* PROGRAMMER_TYPE - set to type of programmer for Uno, set to *arduino*
+* PROGRAMMER_ARGS - required for avrdude use  *-F -V -P $(SERIAL) -b 115200* for **Uno**
+* TOOLCHAIN - see detailed notes in env.make
+* OS =
+* TC3_RESET - set to 0, unless you wish to use the additional timer/counter in the **ATmega328PB**. See code in *Library/sysclock.c* and *Library/sysclock.h*
+* SOFT_BAUD - used for baud rate of soft serial port, typically *28800UL*
+
+
 ## 1. In your CLI
 Enter the two commands below to open the nano editor, in the *AVR_C* folder
 ```bash
@@ -43,19 +63,23 @@ Copy and paste the text below. Be sure to go to step 3!
 # OS: [mac | windows | raspberry ]
 # For GCC native, both TOOLCHAIN and OS need to be blank
 
-# To reduce code size dramatically by not using AVR_C library, 
+# To reduce code size, remove the floating point library by
+# setting 'FLOAT = ', in other words, delete the value YES
+# To further reduce code size dramatically, don't use the AVR_C library, 
 # set LIBRARY = no_lib, see examples/blink_avr
+# 
 # All functions must be in avr-libc (standard library), main.c or files in folder
 # otherwise, leave blank
 
 # Arduino UNO et al using Optiboot (standard Arduino IDE approach)
 MCU = atmega328p
-SERIAL = /dev/ttyACM0
+SERIAL = /dev/tty.usbmodem2101
 F_CPU = 16000000UL
-BAUD  = 250000UL
+USB_BAUD = 250000UL
 SOFT_RESET = 0
 LIBDIR = $(DEPTH)Library
 LIBRARY = 
+FLOAT = YES
 PROGRAMMER_TYPE = arduino
 PROGRAMMER_ARGS = -F -V -P $(SERIAL) -b 115200
 TOOLCHAIN =
@@ -68,10 +92,11 @@ SOFT_BAUD = 28800UL
 # MCU = atmega328p
 # SERIAL = /dev/cu.usbserial-01D5BFFC
 # F_CPU = 16000000UL
-# BAUD  = 250000UL
+# USB_BAUD  = 250000UL
 # SOFT_RESET = 0
 # LIBDIR = $(DEPTH)Library
-# LIBRARY =
+# LIBRARY = 
+# FLOAT = YES
 # PROGRAMMER_TYPE = atmelice_isp
 # PROGRAMMER_ARGS = -F -V -P usb -b 115200
 # TOOLCHAIN = 
@@ -83,10 +108,11 @@ SOFT_BAUD = 28800UL
 # MCU = atmega328p
 # SERIAL = /dev/cu.usbserial-01D5BFFC
 # F_CPU = 16000000UL
-# BAUD  = 250000UL
+# USB_BAUD  = 250000UL
 # SOFT_RESET = 0
 # LIBDIR = $(DEPTH)Library
-# LIBRARY =
+# LIBRARY = 
+# FLOAT = YES
 # PROGRAMMER_TYPE = dragon
 # PROGRAMMER_ARGS =   -c dragon_isp -P usb
 # TOOLCHAIN = 
@@ -98,10 +124,11 @@ SOFT_BAUD = 28800UL
 # MCU = atmega328p
 # SERIAL = /dev/tty.usbmodem4101
 # F_CPU = 16000000UL
-# BAUD  = 250000UL
+# USB_BAUD  = 250000UL
 # SOFT_RESET = 0
 # LIBDIR = $(DEPTH)Library
-# LIBRARY =
+# LIBRARY = 
+# FLOAT = YES
 # PROGRAMMER_TYPE = snap_isp
 # PROGRAMMER_ARGS = -P usb
 # TOOLCHAIN = 
@@ -113,10 +140,11 @@ SOFT_BAUD = 28800UL
 # MCU = atmega328pb
 # SERIAL = /dev/tty.usbmodem4101
 # F_CPU = 16000000UL
-# BAUD  = 250000UL
+# USB_BAUD  = 250000UL
 # SOFT_RESET = 1
 # LIBDIR = $(DEPTH)Library
-# LIBRARY =
+# LIBRARY = 
+# FLOAT = YES
 # PROGRAMMER_TYPE = xplainedmini
 # PROGRAMMER_ARGS =
 # TOOLCHAIN = 
@@ -129,10 +157,11 @@ SOFT_BAUD = 28800UL
 # MCU = avr64dd32
 # SERIAL = /dev/ttyACM0
 # F_CPU = 16000000UL
-# BAUD  = 250000UL
+# USB_BAUD  = 250000UL
 # SOFT_RESET = 0
 # LIBDIR = $(DEPTH)Library
-# LIBRARY =
+# LIBRARY = 
+# FLOAT = YES
 # PROGRAMMER_TYPE = pkobn_updi
 # PROGRAMMER_ARGS =
 # TOOLCHAIN = 

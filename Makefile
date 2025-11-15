@@ -54,23 +54,14 @@ TARGET = main
 
 ifeq ($(LIBRARY),no_lib)
 	SOURCES=$(wildcard *.c )
-	CPPFLAGS = -DF_CPU=$(F_CPU) -DBAUD=$(BAUD)  -DSOFT_BAUD=$(SOFT_BAUD)  \
-	-DSOFT_RESET=$(SOFT_RESET) -DTC3_RESET=$(TC3_RESET)
+	CPPFLAGS = -DF_CPU=$(F_CPU) -DUSB_BAUD=$(USB_BAUD)  -DSOFT_BAUD=$(SOFT_BAUD)  \
+	-DSOFT_RESET=$(SOFT_RESET) -DTC3_RESET=$(TC3_RESET) -DFLOAT=$(FLOAT)
 
 else
     SOURCES=$(wildcard *.c $(LIBDIR)/*.c)
-    CPPFLAGS = -DF_CPU=$(F_CPU) -DBAUD=$(BAUD)   -DSOFT_BAUD=$(SOFT_BAUD) -I. \
-	-I$(LIBDIR) -DSOFT_RESET=$(SOFT_RESET) -DTC3_RESET=$(TC3_RESET)
+    CPPFLAGS = -DF_CPU=$(F_CPU) -DUSB_BAUD=$(USB_BAUD)   -DSOFT_BAUD=$(SOFT_BAUD) -I. \
+	-I$(LIBDIR) -DSOFT_RESET=$(SOFT_RESET) -DTC3_RESET=$(TC3_RESET) -DFLOAT=$(FLOAT)
 endif
-
-# See Note re: CPPFLAGS if using/not using LIBDIR, pick only one LIB or NO_LIB
-# LIB - Uncomment if the AVR_C Library is required (default), also 
-# uncomment LIB below in CPPFLAGS (and comment NO_LIB)
-# SOURCES=$(wildcard *.c $(LIBDIR)/*.c)
-
-# NO_LIB - Uncomment if you wish the smallest code size and DON'T
-# require AVR_C Library (and comment LIB)
-# SOURCES=$(wildcard *.c )
 
 OBJECTS=$(SOURCES:.c=.o)
 HEADERS=$(SOURCES:.c=.h)
@@ -88,15 +79,21 @@ CFLAGS += -ffunction-sections -fdata-sections
 # if attempting to use %S format specification (strings in progmem), uncomment next line
 CFLAGS += -Wno-format
 LDFLAGS = -Wl,-Map,$(TARGET).map 
-## Optional, but often ends up with smaller code
+# Optional, but often ends up with smaller code
 LDFLAGS += -Wl,--gc-sections 
 # Uncomment line below to add timestamp wrapper to printf() OR
 # Comment line below, if  undefined reference to `__wrap_printf'
 # LDFLAGS += -Wl,--wrap=printf
-## Relax shrinks code even more, but makes disassembly messy
-## LDFLAGS += -Wl,--relax
-## LDFLAGS += -Wl,-u,vfprintf -lprintf_flt -lm  ## for floating-point printf
-## LDFLAGS += -Wl,-u,vfprintf -lprintf_min      ## for smaller printf
+# Relax shrinks code even more, but makes disassembly messy
+# LDFLAGS += -Wl,--relax
+
+ifeq ($(FLOAT),YES)
+	LDFLAGS += -Wl,-u,vfprintf -lprintf_flt -lm  ## for floating-point printf
+endif
+
+
+# LDFLAGS += -Wl,-u,vfprintf -lprintf_min      ## for smaller printf
+
 TARGET_ARCH = -mmcu=$(MCU)
 
 ## Explicit pattern rules:
@@ -131,7 +128,7 @@ env:
 	@echo "MCU:"  $(MCU)
 	@echo "SERIAL:"  $(SERIAL)
 	@echo "F_CPU:" $(F_CPU)
-	@echo "BAUD:"  $(BAUD)
+	@echo "USB_BAUD:"  $(USB_BAUD)
 	@echo "SOFT_RESET:"  $(SOFT_RESET)
 	@echo "LIB_DIR:"  $(LIBDIR)
 	@echo "LIBRARY:"  $(LIBRARY)
@@ -141,6 +138,7 @@ env:
 	@echo "OS:"  $(OS)
 	@echo "BIN:"  $(BIN)
 	@echo "TC3_RESET:"  $(TC3_RESET)
+	@echo "SOFT_BAUD:"  $(SOFT_BAUD)
 	@echo
 	@echo "Source files:"   $(SOURCES)
 	@echo	
@@ -152,6 +150,7 @@ help:
 	@echo "make complete - delete all .o files in folder & Library then verbose flash, for complete rebuild/upload"
 	@echo "make verbose - make flash with more programming information for debugging upload"
 	@echo "make env - print active env.make variables"
+	@echo "make size - print size information of elf file"
 	@echo "make help - print this message"
 
 # Optionally create listing file from .elf
